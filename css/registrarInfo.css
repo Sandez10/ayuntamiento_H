@@ -1,0 +1,298 @@
+/* General Styles */
+body {
+    font-family: Arial, Arial;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+/* Sidebar */
+/*.sidebar {
+    width: 250px;
+    background-color: #e6e6e6;
+    color: #000000;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.sidebar .logo img {
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    margin: 10px 0;
+}
+
+.sidebar nav ul li a {
+    color: #000000;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.sidebar nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.sidebar nav ul li .menu-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+*/
+/* Estilo para el contenedor principal */
+.content {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+/* Contenedor principal que contiene las etiquetas e inputs */
+.container .title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Filas para las etiquetas y los inputs */
+.row-group {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px; /* Espacio entre los elementos */
+    margin-bottom: 10px;
+}
+
+/* Estilo para las etiquetas */
+.row-group .label {
+    font-weight: bold;
+    color: #555;
+    width: 100px; /* Ancho fijo para que todas las etiquetas tengan alineación consistente */
+    text-align: center;
+}
+
+/* Estilo para los inputs */
+.row-group input[type="text"] {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    color: #555;
+    font-size: 14px;
+    width: 100px; /* Define un ancho uniforme para los inputs */
+    box-sizing: border-box;
+}
+
+/* Estilo para los inputs deshabilitados */
+.row-group input[disabled] {
+    background-color: #eaeaea;
+    color: #999;
+    cursor: not-allowed;
+}
+header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+header .btn-salir {
+    background-color: #e74c3c;
+    color: #ecf0f1;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+header .btn-salir:hover {
+    background-color: #c0392b;
+}
+
+/* Form */
+.form-avance {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-avance h3 {
+    margin-bottom: 20px;
+    color: #34495e;
+}
+
+.form-avance label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-avance input,
+.form-avance select,
+.form-avance button,
+.form-avance textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form-avance button {
+    background-color: #3498db;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+}
+
+.form-avance button:hover {
+    background-color: #2980b9;
+}
+
+.form-avance .container {
+    margin-bottom: 20px;
+    background-color: #ecf0f1;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.form-avance .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-avance .row .label {
+    flex: 1;
+    font-weight: bold;
+}
+
+.form-avance .row .input {
+    flex: 2;
+}
+
+/* Buttons */
+.btn-regresar {
+    display: inline-block;
+    background-color: #95a5a6;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-regresar:hover {
+    background-color: #7f8c8d;
+}
+
+/* Textarea */
+/* Limitar la altura máxima de los textarea */
+/* Textarea */
+textarea {
+    width: 100%;
+    min-height: 30px; /* Establecer una altura mínima más pequeña */
+    max-height: 80px; /* Establecer una altura máxima más pequeña */
+    resize: none; /* Evitar el redimensionamiento manual */
+    overflow-y: hidden; /* Ocultar la barra de desplazamiento vertical */
+    padding: 5px; /* Reducir el padding para hacerlo más pequeño */
+    font-size: 14px; /* Ajustar el tamaño de la fuente para que sea más pequeño */
+}
+
+textarea:disabled {
+    background-color: #f2f2f2;
+    color: #aaa;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Otros estilos para el formulario y container */
+.container {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.container h3 {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 5px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.label {
+    flex: 1 0 30%; /* Ancho de las etiquetas */
+    font-weight: bold;
+    color: #555;
+    align-self: center;
+}
+
+.input {
+    flex: 1 0 70%; /* Ancho de los campos de texto */
+}
+
+.input input,
+.input textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.row-group {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.row-group .label {
+    flex: 1 0 20%;
+}
+
+.row-group .input {
+    flex: 1 0 25%;
+    margin-right: 10px;
+}
+
+.row-group .input:last-child {
+    margin-right: 0;
+}
+
+@media (max-width: 768px) {
+    .row-group {
+        flex-wrap: wrap;
+    }
+    .row-group .input {
+        flex: 1 0 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}

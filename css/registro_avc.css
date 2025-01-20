@@ -1,0 +1,249 @@
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    background-color: #F3F4F6;
+}
+
+/* Barra lateral */
+.sidebar {
+    width: 250px;
+    background-color: #e6e6e6;
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.sidebar .logo img {
+    width: 70%;
+    margin-bottom: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+    width: 100%;
+    padding-left: 0;
+}
+
+nav ul li {
+    width: 100%;
+    text-align: center;
+}
+
+.menu-title {
+    font-weight: bold;
+    color: #000000;
+    margin: 15px 0 10px;
+}
+
+nav ul li a {
+    display: block;
+    padding: 15px;
+    color: black;
+    text-decoration: none;
+    background-color: #e6e6e6;
+    margin: 5px 20px;
+    border-radius: 4px;
+}
+
+nav ul li a:hover {
+    background-color: #e6e6e6;
+}
+
+/* Contenido principal */
+.content {
+    flex: 1;
+    padding: 10px;
+    position: relative;
+}
+
+header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-salir {
+    background-color: #2A3B5A;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+h2 {
+    color: #2A3B5A;
+    margin-bottom: 5px;
+}
+
+p {
+    font-size: 14px;
+}
+
+
+
+/* Contenedor principal del formulario */
+.form-container {
+
+    
+    display: flex; /* Flexbox para organizar en filas */
+    justify-content: space-between; /* Espacio entre las dos secciones */
+    gap: 20px; /* Espacio entre las dos partes del formulario */
+    margin-bottom: 20px;
+}
+
+/* Estilo para cada grupo de formulario */
+.form-group {
+    flex: 1; /* Distribuir el espacio de manera uniforme */
+    max-width: 48%; /* Cada sección ocupa aproximadamente la mitad */
+}
+
+.form-group label {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 18px;
+}
+
+form input, form button {
+    width: 50%;
+    padding: 5px;
+    margin-bottom: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+form button {
+    
+    width: 200px; /* Ancho fijo del botón */
+    padding: 10px; /* Ajusta el relleno */
+    background-color: #2A3B5A;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center; /* Centra el texto dentro del botón */
+}
+
+form button:hover {
+    background-color: #0055cc;
+}
+
+/* Nueva estructura para el formulario dividido */
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.form-group {
+    width: 48%;
+}
+
+.form-group label {
+    font-size: 13px;
+}
+
+.form-group input {
+    font-size: 13px;
+}
+
+/* Tablas */
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #DDD;
+    font-size: 12px;
+}
+
+table th {
+    background-color: #2A3B5A;
+    color: white;
+    text-align: left;
+}
+
+table td {
+    text-align: center;
+}
+
+table td input[type="text"] {
+    width: 80%;
+    padding: 3px;
+    font-size: 12px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+}
+
+.view-evidence {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.view-evidence:hover {
+    background-color: #003d80;
+}
+
+.note {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #555;
+}
+
+.btn-regresar {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: #003d80;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-regresar:hover {
+    background-color: #0056b3;
+}
+

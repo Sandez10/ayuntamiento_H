@@ -1,0 +1,89 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.main-content {
+    margin: 0 auto;
+    padding: 40px 20px;
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+}
+
+/* Títulos */
+h2, h3 {
+    color: #2A3B5A;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Formulario */
+form {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    text-align: left;
+    width: 100%;
+    max-width: 500px;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+input[type="text"], input[type="password"], input[type="email"], select {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+button.btn-primary {
+    background-color: #007bff;
+}
+
+button.btn-success {
+    background-color: #28a745;
+}
+
+button.btn-danger {
+    background-color: #dc3545;
+}
+
+/* Espaciado entre formularios */
+#addUserForm {
+    margin-top: 20px;
+}
+#resultados {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+
+.resultado-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.resultado-item:hover {
+    background-color: #f0f0f0;
+}
