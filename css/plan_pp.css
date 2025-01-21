@@ -6,21 +6,22 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     display: flex;
     height: 100vh;
-    background-color: #F3F4F6;
+    background-color: #F8FAFC;
 }
 
 /* Barra lateral */
 .sidebar {
     width: 250px;
-    background-color: #e6e6e6;
+    background-color: #1F2937;
     color: #FFFFFF;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .logo img {
@@ -41,148 +42,150 @@ nav ul li {
 
 .menu-title {
     font-weight: bold;
-    color: black;
+    color: #9CA3AF;
     margin: 15px 0 10px;
+    font-size: 14px;
 }
 
 nav ul li a {
     display: block;
-    padding: 20px;
-    color: black;
+    padding: 15px;
+    color: #E5E7EB;
     text-decoration: none;
-    background-color: #e6e6e6;
-    margin: -8px 20px;
+    margin: 5px auto;
     border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 nav ul li a:hover {
-    background-color: #e6e6e6;
+    background-color: #4B5563;
+    color: #FFFFFF;
 }
 
 /* Contenido principal */
 .content {
     flex: 1;
     padding: 20px;
-    position: relative;
-    overflow-x: scroll; /* Permite scroll horizontal */
+    overflow-x: auto;
     max-width: 100%;
 }
 
 header {
     display: flex;
     justify-content: flex-end;
+    margin-bottom: 20px;
 }
 
 .btn-salir {
-    background-color: #2A3B5A;
+    background-color: #EF4444;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
+.btn-salir:hover {
+    background-color: #DC2626;
+}
+
+/* Botón agregar */
 .btn-agregar {
-    background-color: #2A3B5A;
+    background-color: #3B82F6;
     color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    position: relative; /* Permite manipular su posición */
-    left: -80%; /* Mueve el botón hacia la izquierda */
-    margin-right: 10px; /* Separa el botón de otros elementos si es necesario */
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-agregar:hover {
+    background-color: #2563EB;
+    transform: translateY(-3px);
 }
 
 /* Estilos para las columnas fijas */
 table {
     border-collapse: collapse;
     width: 100%;
-    table-layout: auto; /* Permite que el ancho se ajuste automáticamente */
-    position: relative;
+    table-layout: auto;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
-/* Estilo para el encabezado */
 thead th {
-    background-color: #f1f1f1;
+    background-color: #1F2937;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #4B5563;
     position: sticky;
     top: 0;
     z-index: 2;
-    text-align: center;
-    border: 1px solid #ddd;
 }
 
-/* Estilo para las columnas sticky */
 .sticky-col {
     position: sticky;
     left: 0;
-    width: 150px; /* Ajusta el ancho de las columnas fijas */
-    background-color: #f9f9f9;
+    background-color: #E5E7EB;
     z-index: 3;
-    border-right: 1px solid #ddd;
+    border-right: 1px solid #D1D5DB;
 }
 
-/* Fijar la segunda columna */
-.sticky-col:nth-child(2) {
-    left: 150px; /* Ancho de la primera columna */
-}
-
-/* Fijar la tercera columna */
-.sticky-col:nth-child(3) {
-    left: 300px; /* Ancho acumulado de las dos primeras columnas */
-}
-
-/* Estilo para celdas generales */
 thead th, tbody td {
-    padding: 8px;
+    padding: 12px;
     text-align: center;
-    white-space: nowrap;
-    border: 1px solid #ddd;
+    border: 1px solid #D1D5DB;
 }
 
-/* Alternar colores de las filas para mejor legibilidad */
 tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #F9FAFB;
 }
 
-/* Estilo para los botones "Ver" y "Cargar Avances" */
+tbody tr:hover {
+    background-color: #E5E7EB;
+}
+
+/* Botones en la tabla */
 .view-button {
-    background-color: #0056b3;
+    background-color: #3B82F6;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
+    padding: 8px 12px;
+    border-radius: 4px;
     cursor: pointer;
-    text-align: center;
     font-size: 14px;
-    font-weight: bold;
     transition: background-color 0.3s, transform 0.2s;
-    display: inline-block; /* Para evitar colisiones de tamaño */
 }
 
 .view-button:hover {
-    background-color: #003d80;
+    background-color: #2563EB;
     transform: scale(1.05);
 }
 
 .view-button:active {
-    background-color: #002a5b;
+    background-color: #1D4ED8;
     transform: scale(0.95);
 }
 
 /* Botón regresar */
 .btn-regresar {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background-color: #003d80;
+    background-color: #10B981;
     color: white;
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .btn-regresar:hover {
-    background-color: #0056b3;
+    background-color: #059669;
 }

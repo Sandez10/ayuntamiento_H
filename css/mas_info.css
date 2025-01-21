@@ -1,76 +1,15 @@
-/* Estilo general para la tabla */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    table-layout: fixed; /* Importante para columnas fijas */
+/* Bootstrap overrides */
+body {
+    font-family: "Arial", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
 }
 
-/* Contenedor que permite desplazamiento horizontal */
-.table-container {
-    overflow-x: auto;
-    position: relative;
-    max-width: 100%; /* Para evitar desbordamiento */
-}
-
-/* Fijar columnas */
-.sticky-col {
-    position: sticky;
-    background-color: #fff; /* Fondo blanco para que no se superpongan */
-    z-index: 3; /* Asegura que se muestren sobre otras celdas */
-    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.1); /* Efecto de sombra para destacar */
-}
-
-/* Especificar posición de cada columna */
-.sticky-col.clave {
-    left: 75; /* Primera columna fija */
-}
-
-.sticky-col.area {
-    left: 150px; /* Ajusta según el ancho de la columna 'Clave' */
-}
-
-.sticky-col.actividad {
-    left: 300px; /* Ajusta según el ancho acumulado de 'Clave' y 'Área' */
-}
-
-/* Cabeceras fijas al hacer scroll vertical */
-th {
-    position: sticky;
-    top: 0;
-    background-color: #007bff; /* Fondo azul */
-    color: white; /* Texto blanco */
-    z-index: 4;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Efecto de sombra */
-}
-
-/* Estilo para celdas y cabeceras */
-td, th {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
-    min-width: 150px; /* Ancho mínimo consistente */
-}
-
-/* Estilo para filas alternas */
-tr:nth-child(odd) {
-    background-color: #f9f9f9;
-}
-
-tr:nth-child(even) {
-    background-color: #fff;
-}
-
-/* Asegura que las filas tengan altura consistente */
-tr {
-    height: 50px;
-}
-
-/* Barra lateral fija */
 .sidebar {
     width: 250px;
-    background-color: #333;
-    color: white;
+    background-color: #343a40;
+    color: #fff;
     position: fixed;
     height: 100%;
     padding-top: 20px;
@@ -78,7 +17,8 @@ tr {
 
 .sidebar .logo img {
     width: 150px;
-    margin-bottom: 20px;
+    margin: 0 auto 20px;
+    display: block;
 }
 
 .sidebar nav ul {
@@ -87,33 +27,130 @@ tr {
 }
 
 .sidebar nav ul li {
-    padding: 10px;
+    padding: 10px 15px;
+    color: #ddd;
+    font-size: 14px;
 }
 
 .sidebar nav ul li:hover {
-    background-color: #575757;
-}
-
-/* Botones */
-.btn-salir, .btn-regresar {
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
+    background-color: #495057;
     color: #fff;
 }
 
-.btn-salir {
-    background-color: #dc3545;
+.sidebar nav ul li a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }
 
-.btn-salir:hover {
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+header .btn-salir {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+header .btn-salir:hover {
     background-color: #c82333;
 }
 
 .btn-regresar {
     background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 20px;
 }
 
 .btn-regresar:hover {
     background-color: #0056b3;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background-color: #007bff;
+    color: #fff;
+    z-index: 2;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #fff;
+}
+
+tbody td a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+tbody td a:hover {
+    text-decoration: underline;
+}
+
+/* Scrollable table */
+.table-container {
+    overflow-x: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    header .btn-salir {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+
+    .btn-regresar {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 8px;
+    }
 }
