@@ -15,7 +15,6 @@ $stmt->execute();
 $stmt->bind_result($id, $usr);
 $stmt->store_result();
 
-// Crear un array para almacenar usuarios
 $usuarios = [];
 while ($stmt->fetch()) {
     $usuarios[] = ['id' => $id, 'usr' => $usr];
@@ -26,27 +25,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $usuario_id = $_POST['usuario_id'];
     $nuevo_usr = $_POST['usuario'];
     $nueva_clave = $_POST['clave'];
-//    $nuevo_correo = $_POST['correo'];
+    $nuevo_correo = $_POST['correo'];
     $nuevo_area_admin = $_POST['area_admin'];
     $nuevo_rol = $_POST['rol'];
+    $nuevo_dependencia_area = isset($_POST['dependencia_area']) ? $_POST['dependencia_area'] : NULL;
+    $nuevo_clave_area = isset($_POST['clave_area']) ? $_POST['clave_area'] : NULL;
 
-    // Validar el correo electrónico
-    //$patron_correo = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
-    //$correo_valido = preg_match($patron_correo, $nuevo_correo);
+    // Validación de correo
+    $patron_correo = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+    $correo_valido = preg_match($patron_correo, $nuevo_correo);
+
     if (!$correo_valido) {
         echo "<div class='alert alert-warning'>Por favor, use un correo válido.</div>";
     } else {
-        $queryUpdate = "UPDATE usuarios SET usr = ?, clave = ?, area_admin = ?, rol = ? WHERE id = ?";
+        $queryUpdate = "UPDATE usuarios SET usr = ?, clave = ?, correo = ?, rol = ?, dependenciaArea = ?, clave_area = ? WHERE id = ?";
         $stmtUpdate = $conn->prepare($queryUpdate);
-        $stmtUpdate->bind_param("sssssi", $nuevo_usr, $nueva_clave, $nuevo_correo, $nuevo_area_admin, $nuevo_rol, $usuario_id);
+        // Verifica que todas las variables estén definidas antes de pasarlas a bind_param
+        $stmtUpdate->bind_param("ssssssi", $nuevo_usr, $nueva_clave, $nuevo_correo, $nuevo_rol, $nuevo_dependencia_area, $nuevo_clave_area, $usuario_id);
         $stmtUpdate->execute();
         echo "<p style='color: green;'>Usuario actualizado correctamente.</p>";
+        $stmtUpdate->close();
     }
-    $stmtUpdate->close();
 }
 
-
-// Eliminar el usuario
+// Eliminar usuario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     $usuario_id = $_POST['usuario_id'];
     $queryDelete = "DELETE FROM usuarios WHERE id = ?";
@@ -60,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     $stmtDelete->close();
 }
 
-// Crear nuevo usuario
+// Crear usuario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
     $nuevo_usr = $_POST['new_usuario'];
     $nueva_clave = $_POST['new_clave'];
@@ -68,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
     $nuevo_area_admin = $_POST['new_area_admin'];
     $nuevo_rol = $_POST['new_rol'];
 
-    $queryCreate = "INSERT INTO usuarios (usr, clave, correo, area_admin, rol) VALUES (?, ?, ?, ?, ?)";
+    $queryCreate = "INSERT INTO usuarios (usr, clave, correo, dependenciaArea, rol) VALUES (?, ?, ?, ?, ?)";
     $stmtCreate = $conn->prepare($queryCreate);
     $stmtCreate->bind_param("sssss", $nuevo_usr, $nueva_clave, $nuevo_correo, $nuevo_area_admin, $nuevo_rol);
     $stmtCreate->execute();
@@ -125,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
 </head>
 <body>
     <div class="header">
-        <div class="logo"><img src="../../img/zihua.png" alt="Logo"></div>
+        <div class="logo"><img src="../img/zihua.png" alt="Logo"></div>
         <div class="user-options">
             <p>Bienvenido, <?= $_SESSION['usuario']; ?>!</p>
             <a href="../sesiones_conexiones/destruir_sesion.php" class="logout-icon">
@@ -137,6 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
     <div class="sidebar">
         <nav>
             <ul><li><a href="../plataforma/dashboard.php">Dashboard</a></li></ul>
+            <ul><li><a href="../formularios/pre_a.php">Mostrar Actividades</a></li></ul>
         </nav>
     </div>
 
@@ -166,34 +169,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
             </div>
         </form>
 
-        <!-- Formulario para agregar nuevo usuario -->
-        <div id="addUserForm" style="display: none; margin-top: 20px;">
-            <h3>Agregar Nuevo Usuario</h3>
-            <form method="POST" action="actualizar_usr.php">
-                <label for="new_usuario">Usuario:</label>
-                <input type="text" name="new_usuario" required><br>
-                <label for="new_clave">Contraseña:</label>
-                <input type="password" name="new_clave" required><br>
-                <label for="new_correo">Correo:</label>
-                <input type="email" name="new_correo" required><br>
-                <label for="new_area_admin">Área Administrativa:</label>
-                <input type="text" name="new_area_admin" required><br>
-                <label for="new_rol">Rol:</label>
-                <select name="new_rol" required>
-                    <option value="admin">Admin</option>
-                    <option value="user">Usuario</option>
-                </select><br>
-                <button type="submit" name="create">Guardar Usuario</button>
-            </form>
-        </div>
-
         <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['usuario'])): 
             $usuario = $_POST['usuario'];
             $queryDetalle = "SELECT * FROM usuarios WHERE usr = ?";
             $stmtDetalle = $conn->prepare($queryDetalle);
             $stmtDetalle->bind_param("s", $usuario);
             $stmtDetalle->execute();
-            $stmtDetalle->bind_result($id, $usr, $clave, $area_admin, $rol,$clave_area);
+            $stmtDetalle->bind_result($id, $usr, $clave, $correo, $dependenciaArea, $rol, $clave_area);
+
             $stmtDetalle->fetch();
         ?>
             <h3>Detalles del Usuario</h3>
@@ -201,9 +184,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
                 <input type="hidden" name="usuario_id" value="<?= $id ?>">
                 <label>Usuario: <input type="text" name="usuario" value="<?= $usr ?>"></label><br>
                 <label>Contraseña: <input type="password" name="clave" value="<?= $clave ?>"></label><br>
-                <!--<label>Correo: <input type="text" name="correo" value="<//?=// $correo ?>"></label><br> Quitar comentar si en un futuro se va agregar la opc del correo--> 
-                <label>Área: <input type="text" name="area_admin" value="<?= $area_admin ?>"></label><br>
-                <label>Clave: <input type="text" name="area_admin" value="<?= $clave_area ?>"></label><br>
+                <label>Correo: <input type="text" name="correo" value="<?= $correo ?>"></label><br> 
+                <label>Área: <input type="text" name="dependencia_area" value="<?= $dependenciaArea ?>"></label><br>
+                <label>Clave: <input type="text" name="clave_area" value="<?= $clave_area ?>"></label><br>
                 <label>Rol: 
                     <select name="rol">
                         <option value="admin" <?= ($rol == 'admin') ? 'selected' : '' ?>>Admin</option>
@@ -213,14 +196,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
                 <button type="submit" class="btn btn-success" name="update">Actualizar</button>
                 <button type="submit" class="btn btn-danger" name="delete" onclick="return confirmarEliminacion()">Eliminar Usuario</button>
             </form>
+            
         <?php 
             $stmtDetalle->close();
         endif; ?>
     </div>
 </body>
 </html>
-
-<?php
-$stmt->close();
-$conn->close();
-?>
