@@ -21,21 +21,22 @@ if (isset($_POST['btnAcceder'])) {
     if ($resultado->num_rows > 0) {
         $usuarioData = $resultado->fetch_assoc();
 
-        // Verificar la contraseña (comparación directa ya que no está encriptada)
-        if ($clave === $usuarioData['clave']) {
-            $_SESSION['usuario'] = $usuario; // Guardar el nombre de usuario en la sesión
+// Verificar la contraseña encriptada
+if (password_verify($clave, $usuarioData['clave'])) {
+    $_SESSION['usuario'] = $usuario; // Guardar el nombre de usuario en la sesión
 
-            // Verificar si necesita cambiar su contraseña
-            if ($usuarioData['password_reset_required'] == 1) {
-                // Redirigir a la página para cambiar contraseña
-                header("Location: new_pass.php");
-                exit();
-            }
+    // Verificar si necesita cambiar su contraseña
+    if ($usuarioData['password_reset_required'] == 1) {
+        // Redirigir a la página para cambiar contraseña
+        header("Location: new_pass.php");
+        exit();
+    }
 
-            // Redirigir al archivo combinado si no necesita cambiar contraseña
-            header("Location: ../plataforma/seleccionEJE.php");
-            exit();
-        } else {
+    // Redirigir al archivo combinado si no necesita cambiar contraseña
+    header("Location: ../plataforma/seleccionEJE.php");
+    exit();
+}
+ else {
             // Contraseña incorrecta
             echo "<script>alert('Credenciales incorrectas. Por favor, intenta de nuevo.'); window.location.href='../index.php';</script>";
         }
