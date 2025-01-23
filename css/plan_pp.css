@@ -173,7 +173,7 @@ tbody tr:hover {
 }
 
 /* Botón regresar */
-.btn-regresar {
+/*.btn-regresar {
     background-color: #10B981;
     color: white;
     padding: 10px 15px;
@@ -188,4 +188,13 @@ tbody tr:hover {
 
 .btn-regresar:hover {
     background-color: #059669;
+}
+*/
+
+.btn-auto {
+    width: auto; /* Ancho automático basado en el contenido */
+    padding: 10px 20px; /* Aumentar el espacio interno para que se vea mejor */
+    font-size: 16px; /* Ajustar el tamaño de la fuente */
+    text-align: center; /* Centrar el texto */
+    white-space: nowrap; /* Evitar que el texto se divida en varias líneas */
 }
