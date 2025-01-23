@@ -1,0 +1,131 @@
+/* Estilos globales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Encabezado */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #003d82;
+    color: white;
+    padding: 10px 20px;
+}
+
+header .logo {
+    height: 50px;
+}
+
+header .logout {
+    background-color: #ff4d4d;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+header .logout:hover {
+    background-color: #ff1a1a;
+}
+
+/* Menú lateral */
+.menu {
+    background-color: #0072c6;
+    color: white;
+    width: 250px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.menu button {
+    background-color: #005fa3;
+    border: none;
+    color: white;
+    text-align: left;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.menu button:hover {
+    background-color: #004080;
+}
+
+/* Submenú */
+.menu .submenu button {
+    margin-left: 15px;
+    font-size: 0.9rem;
+}
+
+/* Contenido principal */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.main-content h3 {
+    color: #003d82;
+    margin-bottom: 15px;
+}
+
+.select-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.select-container label {
+    margin-right: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+.select-container select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+button.generate {
+    background-color: #005fa3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 15px;
+    font-size: 1rem;
+}
+
+button.generate:hover {
+    background-color: #003d82;
+}
+
+/* Regresar */
+button.back {
+    background-color: #004080;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button.back:hover {
+    background-color: #00264d;
+}
