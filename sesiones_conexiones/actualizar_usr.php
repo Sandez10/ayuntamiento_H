@@ -24,13 +24,11 @@ while ($stmt->fetch()) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $usuario_id = $_POST['usuario_id'];
     $nuevo_usr = $_POST['usuario'];
-    $nueva_clave = $_POST['clave'];
-    $nueva_clave_temporal = $_POST['clave_temporal'];
     $nuevo_correo = $_POST['correo'];
-    $nuevo_area_admin = $_POST['area_admin'];
+    $nueva_clave_temporal = $_POST['clave_temporal'];
     $nuevo_rol = $_POST['rol'];
-    $nuevo_dependencia_area = isset($_POST['dependencia_area']) ? $_POST['dependencia_area'] : NULL;
-    $nuevo_clave_area = isset($_POST['clave_area']) ? $_POST['clave_area'] : NULL;
+    $nueva_area = $_POST['dependeciaArea'];
+    $nueva_ClaveArea = $_POST['clave_area'];
 
     // Validación de correo
     $patron_correo = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
@@ -39,22 +37,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     if (!$correo_valido) {
         echo "<div class='alert alert-warning'>Por favor, use un correo válido.</div>";
     } else {
-        $queryUpdate = "UPDATE usuarios SET usr = ?, clave = ?, correo = ?, rol = ?, dependenciaArea = ?, clave_area = ?, password_reset_required = ? WHERE id = ?";
+        $queryUpdate = "UPDATE usuarios SET usr = ?, correo = ?, rol = ?, clave = ?, password_reset_required = 1 WHERE id = ?";
         $stmtUpdate = $conn->prepare($queryUpdate);
 
-        // Encriptar contraseñas
-        $clave_encriptada = password_hash($nueva_clave, PASSWORD_DEFAULT);
-        $clave_temporal_encriptada = !empty($nueva_clave_temporal) ? password_hash($nueva_clave_temporal, PASSWORD_DEFAULT) : NULL;
+        // Encriptar contraseña temporal si se asigna
+        $clave_temporal_encriptada = password_hash($nueva_clave_temporal, PASSWORD_DEFAULT);
 
-        // Si el admin asigna una contraseña temporal, marcar password_reset_required = 1
-        if (!empty($nueva_clave_temporal)) {
-            $stmtUpdate->bind_param("sssssisi", $nuevo_usr, $clave_temporal_encriptada, $nuevo_correo, $nuevo_rol, $nuevo_dependencia_area, $nuevo_clave_area, $reset_required = 1, $usuario_id);
-        } else {
-            $stmtUpdate->bind_param("sssssisi", $nuevo_usr, $clave_encriptada, $nuevo_correo, $nuevo_rol, $nuevo_dependencia_area, $nuevo_clave_area, $reset_required = 0, $usuario_id);
-        }
-
+        $stmtUpdate->bind_param("ssssi", $nuevo_usr, $nuevo_correo, $nuevo_rol, $clave_temporal_encriptada, $usuario_id);
         $stmtUpdate->execute();
-        echo "<p style='color: green;'>Usuario actualizado correctamente.</p>";
+        echo "<p style='color: green;'>Usuario actualizado correctamente con contraseña temporal.</p>";
         $stmtUpdate->close();
     }
 }
@@ -78,15 +69,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
     $nuevo_usr = $_POST['new_usuario'];
     $nueva_clave = $_POST['new_clave'];
     $nuevo_correo = $_POST['new_correo'];
-    $nuevo_area_admin = $_POST['new_area_admin'];
     $nuevo_rol = $_POST['new_rol'];
 
     // Encriptar contraseña
     $clave_encriptada = password_hash($nueva_clave, PASSWORD_DEFAULT);
 
-    $queryCreate = "INSERT INTO usuarios (usr, clave, correo, dependenciaArea, rol) VALUES (?, ?, ?, ?, ?)";
+    $queryCreate = "INSERT INTO usuarios (usr, clave, correo, rol, password_reset_required) VALUES (?, ?, ?, ?, 0)";
     $stmtCreate = $conn->prepare($queryCreate);
-    $stmtCreate->bind_param("sssss", $nuevo_usr, $clave_encriptada, $nuevo_correo, $nuevo_area_admin, $nuevo_rol);
+    $stmtCreate->bind_param("ssss", $nuevo_usr, $clave_encriptada, $nuevo_correo, $nuevo_rol);
     $stmtCreate->execute();
     echo "<p style='color: green;'>Usuario creado correctamente.</p>";
     $stmtCreate->close();
@@ -100,9 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrar Usuarios</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/actualizar_usr.css">
-
 </head>
 <body>
     <div class="header">
@@ -150,37 +139,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
 
         <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['usuario'])): 
             $usuario = $_POST['usuario'];
-            $queryDetalle = "SELECT * FROM usuarios WHERE usr = ?";
+            $queryDetalle = "SELECT id, usr, correo, rol, password_reset_required, dependenciaArea FROM usuarios WHERE usr = ?";
             $stmtDetalle = $conn->prepare($queryDetalle);
             $stmtDetalle->bind_param("s", $usuario);
             $stmtDetalle->execute();
-            $stmtDetalle->bind_result($id, $usr, $clave, $correo, $dependenciaArea, $rol, $clave_area, $password_reset_required);
-
+            $stmtDetalle->bind_result($id, $usr, $correo, $rol, $password_reset_required, $dependencia);  // Coincide con las columnas seleccionadas
             $stmtDetalle->fetch();
+            
         ?>
             <h3>Detalles del Usuario</h3>
             <form method="POST" action="actualizar_usr.php">
                 <input type="hidden" name="usuario_id" value="<?= $id ?>">
                 <label>Usuario: <input type="text" name="usuario" value="<?= $usr ?>"></label><br>
-                <label>Contraseña Actual: <input type="password" name="clave" value="<?= $clave ?>" readonly></label><br>
-                <label>Asignar Contraseña Temporal: <input type="password" name="clave_temporal" placeholder="Nueva contraseña temporal"></label><br>
                 <label>Correo: <input type="text" name="correo" value="<?= $correo ?>"></label><br> 
-                <label>Área: <input type="text" name="dependencia_area" value="<?= $dependenciaArea ?>"></label><br>
-                <label>Clave: <input type="text" name="clave_area" value="<?= $clave_area ?>"></label><br>
+                <label>Asignar Contraseña Temporal: <input type="password" name="clave_temporal" placeholder="Nueva contraseña temporal"></label><br>
                 <label>Rol: 
                     <select name="rol">
                         <option value="admin" <?= ($rol == 'admin') ? 'selected' : '' ?>>Admin</option>
                         <option value="user" <?= ($rol == 'user') ? 'selected' : '' ?>>Usuario</option>
                     </select>
                 </label><br>
+                <label>Área: <input type="text" name="area" value="<?= $dependencia ?>"></label><br> 
                 <button type="submit" class="btn btn-success" name="update">Actualizar</button>
                 <button type="submit" class="btn btn-danger" name="delete" onclick="return confirmarEliminacion()">Eliminar Usuario</button>
             </form>
-            
         <?php 
             $stmtDetalle->close();
         endif; ?>
+
+        <!-- Formulario para agregar un nuevo usuario -->
+        <div id="addUserForm" style="display: none;">
+            <h3>Agregar Nuevo Usuario</h3>
+            <form method="POST" action="actualizar_usr.php">
+                <label>Usuario: <input type="text" name="new_usuario" required></label><br>
+                <label>Asignar Contraseña Temporal: <input type="password" name="clave_temporal" placeholder="Nueva contraseña temporal"></label><br>
+                <label>Correo: <input type="email" name="new_correo" required></label><br>
+                <label>Rol: 
+                    <select name="new_rol" required>
+                        <option value="admin">Admin</option>
+                        <option value="user">Usuario</option>
+                    </select>
+                </label><br>
+                <label>Área: <input type="text" name="area" value="<?= $dependencia ?>"></label><br> 
+                <button type="submit" class="btn btn-primary" name="create">Crear Usuario</button>
+            </form>
+        </div>
     </div>
+
     <script>
         function toggleAddUserForm() {
             const form = document.getElementById('addUserForm');
@@ -216,6 +221,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
         function confirmarEliminacion() {
             return confirm('¿Estás seguro de que deseas eliminar este usuario?');
         }
+
+
+
     </script>
 </body>
 </html>
