@@ -22,6 +22,9 @@ while ($stmt->fetch()) {
 
 // Actualizar el usuario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
+        // Validación de correo
+        $patron_correo = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+        $correo_valido = preg_match($patron_correo, $nuevo_correo);
     $usuario_id = $_POST['usuario_id'];
     $nuevo_usr = $_POST['usuario'];
     $nuevo_correo = $_POST['correo'];
@@ -29,10 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $nuevo_rol = $_POST['rol'];
     $nueva_area = $_POST['dependeciaArea'];
     $nueva_ClaveArea = $_POST['clave_area'];
-
-    // Validación de correo
-    $patron_correo = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
-    $correo_valido = preg_match($patron_correo, $nuevo_correo);
 
     if (!$correo_valido) {
         echo "<div class='alert alert-warning'>Por favor, use un correo válido.</div>";
@@ -66,21 +65,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
 
 // Crear usuario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
-    $nuevo_usr = $_POST['new_usuario'];
-    $nueva_clave = $_POST['new_clave'];
-    $nuevo_correo = $_POST['new_correo'];
-    $nuevo_rol = $_POST['new_rol'];
+    $nuevo_usr = $_POST['usuario']; // Nombre de usuario
+    $nuevo_correo = $_POST['correo']; // Correo electrónico
+    $nueva_clave_temporal = $_POST['clave_temporal']; // Contraseña temporal
+    $nuevo_rol = $_POST['rol']; // Rol del usuario
+    $nueva_area = $_POST['dependeciaArea']; // Área de dependencia
+    $nueva_clave_area = $_POST['clave_area']; // Clave del área
 
     // Encriptar contraseña
-    $clave_encriptada = password_hash($nueva_clave, PASSWORD_DEFAULT);
+    $clave_encriptada = password_hash($nueva_clave_temporal, PASSWORD_DEFAULT);
 
-    $queryCreate = "INSERT INTO usuarios (usr, clave, correo, rol, password_reset_required) VALUES (?, ?, ?, ?, 0)";
+    // Consulta para crear usuario
+    $queryCreate = "INSERT INTO usuarios (usr, clave, correo, rol, dependenciaArea, clave_area, password_reset_required) 
+                    VALUES (?, ?, ?, ?, ?, ?, 1)";
     $stmtCreate = $conn->prepare($queryCreate);
-    $stmtCreate->bind_param("ssss", $nuevo_usr, $clave_encriptada, $nuevo_correo, $nuevo_rol);
-    $stmtCreate->execute();
-    echo "<p style='color: green;'>Usuario creado correctamente.</p>";
+
+    // Asignar parámetros
+    $stmtCreate->bind_param("ssssss", $nuevo_usr, $clave_encriptada, $nuevo_correo, $nuevo_rol, $nueva_area, $nueva_clave_area);
+
+    // Ejecutar y verificar
+    if ($stmtCreate->execute()) {
+        echo "<p style='color: green;'>Usuario creado correctamente.</p>";
+    } else {
+        echo "<p style='color: red;'>Error al crear el usuario: " . $stmtCreate->error . "</p>";
+    }
+
     $stmtCreate->close();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -167,23 +179,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
             $stmtDetalle->close();
         endif; ?>
 
-        <!-- Formulario para agregar un nuevo usuario -->
-        <div id="addUserForm" style="display: none;">
-            <h3>Agregar Nuevo Usuario</h3>
-            <form method="POST" action="actualizar_usr.php">
-                <label>Usuario: <input type="text" name="new_usuario" required></label><br>
-                <label>Asignar Contraseña Temporal: <input type="password" name="clave_temporal" placeholder="Nueva contraseña temporal"></label><br>
-                <label>Correo: <input type="email" name="new_correo" required></label><br>
-                <label>Rol: 
-                    <select name="new_rol" required>
-                        <option value="admin">Admin</option>
-                        <option value="user">Usuario</option>
-                    </select>
-                </label><br>
-                <label>Área: <input type="text" name="area" value="<?= $dependencia ?>"></label><br> 
-                <button type="submit" class="btn btn-primary" name="create">Crear Usuario</button>
-            </form>
-        </div>
+<!-- Formulario para agregar un nuevo usuario -->
+<div id="addUserForm" style="display: none;">
+    <h3>Agregar Nuevo Usuario</h3>
+    <form method="POST" action="actualizar_usr.php">
+        <!-- Usuario -->
+        <label>Usuario: 
+            <input type="text" name="usuario" required placeholder="Nombre de usuario">
+        </label><br>
+        
+        <!-- Contraseña Temporal -->
+        <label>Asignar Contraseña Temporal: 
+            <input type="password" name="clave_temporal" required placeholder="Nueva contraseña temporal">
+            <button type="button" onclick="togglePassword()">👁️</button>
+        </label><br>
+
+        <!-- Correo -->
+        <label>Correo: 
+            <input type="email" name="correo" required placeholder="Correo electrónico">
+        </label><br>
+
+        <!-- Rol -->
+        <label>Rol: 
+            <select name="rol" required>
+                <option value="admin">Admin</option>
+                <option value="user">Usuario</option>
+            </select>
+        </label><br>
+
+        <!-- Área -->
+        <label>Área: 
+            <input type="text" name="clave_area" required placeholder="Clave del área">
+        </label><br>
+
+        <!-- Clave del Área -->
+        <label>Clave del Área: 
+            <input type="text" name="clave_area" required placeholder="Clave del área">
+        </label><br>
+
+        <!-- Botón para enviar -->
+        <button type="submit" class="btn btn-primary" name="create">Crear Usuario</button>
+    </form>
+</div>
     </div>
 
     <script>
@@ -223,7 +260,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
         }
 
 
-
+    // Mostrar/ocultar contraseña
+    function togglePassword() {
+        const passwordField = document.querySelector('input[name="clave_temporal"]');
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+        } else {
+            passwordField.type = "password";
+        }
+    }
     </script>
 </body>
 </html>
