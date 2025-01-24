@@ -154,3 +154,10 @@ tbody td a:hover {
         padding: 8px;
     }
 }
+td div {
+    margin-bottom: 5px; /* Espacio entre el avance y los beneficiarios */
+}
+
+td div strong {
+    display: block; /* Asegura que cada etiqueta "Avance" y "Beneficiarios" esté en su propia línea */
+}
