@@ -103,7 +103,7 @@ if ($resultado->num_rows > 0) {
         echo "<td>" . htmlspecialchars($row['nombreProgramaP'], ENT_QUOTES, 'UTF-8') . "</td>";
         echo "<td>" . htmlspecialchars($row['nombre_area'], ENT_QUOTES, 'UTF-8') . "</td>";
         echo "<td>
-            <button class='view-button' onclick='location.href=\"programa_presupuestario/mas_info.php?claveProgramaP=" . urlencode($row['claveProgramaP']) . "&clave_area=" . urlencode($row['clave_area']) . "\";'>Mostrar</button>
+            <button class='view-button' onclick='location.href=\"programa_presupuestario/mas_info.php?claveProgramaP=" . urlencode($row['claveProgramaP']) . "&clave_area=" . urlencode($row['clave_area']) . "&nombre_area=" . urldecode($row['nombre_area']) . "\";'>Mostrar</button>
             <button class='view-button' onclick='location.href=\"programa_presupuestario/registrarInfo.php?claveProgramaP=" . urlencode($row['claveProgramaP']) . "&clave_area=" . urlencode($row['clave_area']) . "\";'>Registrar Avance</button>
         </td>";
         echo "</tr>";
@@ -114,6 +114,7 @@ if ($resultado->num_rows > 0) {
 $stmtProgramas->close();
 $conn->close();
 ?>
+        <button type="button" class="btn btn-secondary" onclick="location.href='programasPre.php';">Regresar</button>
             </tbody>
         </table>
     </div>

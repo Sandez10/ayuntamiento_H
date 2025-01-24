@@ -37,9 +37,7 @@ if (!$nombreActividad) {
 }
 
 // Consultar las evidencias asociadas a la actividad
-$queryAvances = "SELECT nombreEvidencia, mes, avance, avanceBeneficiario, avanceEvidencia 
-FROM avances_mensuales 
-WHERE id_actividades = ?";
+$queryAvances = "SELECT nombreEvidencia, mes FROM avances_mensuales WHERE id_actividades = ?";
 $stmtAvances = $conn->prepare($queryAvances);
 
 if (!$stmtAvances) {
@@ -50,6 +48,15 @@ $stmtAvances->bind_param("i", $id_actividad);
 $stmtAvances->execute();
 $resultEvidencias = $stmtAvances->get_result();
 
+// Inicializar arreglo para clasificar evidencias por mes
+$evidenciasPorMes = array_fill(1, 12, []);
+
+while ($evidencia = $resultEvidencias->fetch_assoc()) {
+    $mes = (int)$evidencia['mes'];
+    $evidenciasPorMes[$mes][] = $evidencia;
+}
+$stmtAvances->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -60,6 +67,8 @@ $resultEvidencias = $stmtAvances->get_result();
     <title>Evidencias de Actividad</title>
     <link rel="stylesheet" href="../../css/evidencia.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
     <!-- Sidebar -->
@@ -69,15 +78,6 @@ $resultEvidencias = $stmtAvances->get_result();
                 <img src="../../img/ZIHUA_C.png" alt="Logo" style="max-width: 100%; height: auto;">
             </a>
         </div>
-<!--        <nav>
-            <ul>
-                <li><span class="menu-title">Menú</span></li>
-                <li><a href="#">Presupuesto Anual</a></li>
-                <li><span class="menu-title">Reportes</span></li>
-                <li><a href="#">Programa Operativo Anual</a></li>
-                <li><a href="#">Reporte de Avance</a></li>
-            </ul>
-        </nav>-->
     </div>
 
     <!-- Main Content -->
@@ -87,35 +87,46 @@ $resultEvidencias = $stmtAvances->get_result();
         </header>
         <h6>Actividad: <?php echo htmlspecialchars($nombreActividad); ?></h6>
 
-        <?php if ($resultEvidencias->num_rows > 0): ?>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Nombre de la Evidencia</th>
-                        <th>Archivo</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($evidencia = $resultEvidencias->fetch_assoc()): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($evidencia['nombreEvidencia']); ?></td> <!-- Corregido -->
-                            <td><a href="../../uploads/<?php echo htmlspecialchars($evidencia['nombreEvidencia']); ?>" class="btn btn-info" target="_blank">Ver archivo</a></td>
-                            <td><a href="../../uploads/<?php echo htmlspecialchars($evidencia['nombreEvidencia']); ?>" class="btn btn-primary" download>Descargar</a></td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p>No se han encontrado evidencias para esta actividad.</p>
-        <?php endif; ?>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Enero</th>
+                    <th>Febrero</th>
+                    <th>Marzo</th>
+                    <th>Abril</th>
+                    <th>Mayo</th>
+                    <th>Junio</th>
+                    <th>Julio</th>
+                    <th>Agosto</th>
+                    <th>Septiembre</th>
+                    <th>Octubre</th>
+                    <th>Noviembre</th>
+                    <th>Diciembre</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <?php for ($mes = 1; $mes <= 12; $mes++): ?>
+                        <td>
+                            <?php if (!empty($evidenciasPorMes[$mes])): ?>
+                                <?php foreach ($evidenciasPorMes[$mes] as $evidencia): ?>
+                                    <a href="../../uploads/<?php echo htmlspecialchars($evidencia['nombreEvidencia']); ?>" class="btn btn-info btn-sm" target="_blank" title="<?php echo htmlspecialchars($evidencia['nombreEvidencia']); ?>">
+                                    <i class="fas fa-file-pdf fa-2x"></i></a>
+                                    <a href="../../uploads/<?php echo htmlspecialchars($evidencia['nombreEvidencia']); ?>" class="btn btn-primary btn-sm" download title="<?php echo htmlspecialchars($evidencia['nombreEvidencia']); ?>">
+                                    <i class="fas fa-cloud-download-alt fa-2x"></i></a>
+
+
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <p>Sin evidencias</p>
+                            <?php endif; ?>
+                        </td>
+                    <?php endfor; ?>
+                </tr>
+            </tbody>
+        </table>
 
         <button type="button" class="btn btn-secondary" onclick="location.href='javascript:history.back();'">Regresar</button>
     </div>
 </body>
 </html>
-
-<?php
-$stmtAvances->close();
-$conn->close();
-?>
