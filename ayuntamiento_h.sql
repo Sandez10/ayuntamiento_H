@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-01-2025 a las 19:14:18
+-- Tiempo de generación: 24-01-2025 a las 17:49:35
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -49,33 +49,6 @@ CREATE TABLE `avances_mensuales` (
   `nombreEvidencia` varchar(255) NOT NULL,
   `id_actividades` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `avances_mensuales`
---
-
-INSERT INTO `avances_mensuales` (`id`, `clave_area`, `mes`, `avance`, `avanceBeneficiario`, `avanceEvidencia`, `nombreEvidencia`, `id_actividades`) VALUES
-(620, 'DIF', 1, 121, 12, 0x2e2e2f2e2e2f75706c6f6164732f636f6d70726f62616e74654e53532e706466, 'comprobanteNSS.pdf', 1),
-(621, 'DIF', 1, 1, 1, 0x2e2e2f2e2e2f75706c6f6164732f4163757365436974612e706466, 'AcuseCita.pdf', 19),
-(622, 'DIF', 1, 1, 1, 0x2e2e2f2e2e2f75706c6f6164732f4163757365436974612e706466, 'AcuseCita.pdf', 19),
-(623, 'DIF', 1, 1000, 12, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 1),
-(624, 'DIF', 1, 1, 1, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 22),
-(625, 'DIF', 1, 1, 1, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 21),
-(626, 'DIF', 6, 1, 1, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 21),
-(627, 'DIF', 6, 1000, 122, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 1),
-(628, 'DIF', 1, 1000, 122, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 1),
-(629, 'DIF', 1, 1000, 122, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 1),
-(630, 'DIF', 1, 1000, 122, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 1),
-(631, 'DIF', 1, 1000, 122, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 1),
-(632, 'DIF', 1, 1000, 122, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 1),
-(633, 'DIF', 1, 1000, 122, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 1),
-(634, 'DIF', 1, 1000, 122, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 1),
-(635, 'DIF', 1, 1000, 122, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 1),
-(636, 'DIF', 1, 1000, 122, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 1),
-(637, 'DIF', 1, 1000, 122, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 1),
-(638, 'DIF', 1, 1000, 122, 0x2e2e2f2e2e2f75706c6f6164732f6c6f63616c686f73745f485f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f666f726d756c6172696f735f70726f6772616d615f707265737570756573746172696f5f70726f6772616d5f6f70412e7068702e706466, 'localhost_H_____________________formularios_programa_presupuestario_program_opA.php.pdf', 1),
-(639, 'DSO', 1, 1, 1, 0x2e2e2f2e2e2f75706c6f6164732f556e69666f726d657320322e706466, 'Uniformes 2.pdf', 5),
-(640, 'DSO', 1, 24, 126001, 0x2e2e2f2e2e2f75706c6f6164732f556e69666f726d657320332e706466, 'Uniformes 3.pdf', 5);
 
 -- --------------------------------------------------------
 
@@ -1031,11 +1004,11 @@ INSERT INTO `usuarios` (`id`, `usr`, `clave`, `correo`, `rol`, `dependenciaArea`
 (3, 'OFPOfi', '$2y$10$69VKzF/4aREBmoZfChcpLelOhyfUySuQBU7Zp84sgMs.sk9v3kIAu', NULL, 'usuario', 'Oficina de la Presidencia', 'OFP', 1),
 (4, 'OCIÓrg', '$2y$10$IptZfPDCOnvIIvggE5azkOxZqA.K0eLTvZsNBHFg6UJm/H2FrxwTO', NULL, 'usuario', 'Órgano de Control Interno', 'OCI', 1),
 (5, 'SPASec', '$2y$10$P1LUpNJfb7v5GF/8phfX6.EEIAszzi2tOOb2DS5wabrx5KLuT5L7C', NULL, 'usuario', 'Secretaría Particular', 'SPA', 1),
-(6, 'DACDir', '$2y$10$b6aFwtJCFq/dz59qu.HfM.CYkqcLd0p98w39f7bp6h.TdiTCpn242', NULL, 'usuario', 'Atención Ciudadana', 'DAC', 1),
+(6, 'DACDir', '$2y$10$b6aFwtJCFq/dz59qu.HfM.CYkqcLd0p98w39f7bp6h.TdiTCpn242', NULL, 'usuario', 'Dirección Atención Ciudadana', 'DAC', 1),
 (7, 'DCODir', '$2y$10$nyDs9TT/jDy8zQVmi.BFB.nxsiqrFEzIOuxBoYwzPQtGbIjb9FECe', NULL, 'usuario', 'Dirección de Comunicación', 'DCO', 1),
 (8, 'DGLDir', '$2y$10$1tA9og5HUAw0BT5rjIZb3.oz/km/Cqu6HnDGzFm8oymFigZLlV5wW', NULL, 'usuario', 'Dirección de Giras y Logística', 'DGL', 1),
 (9, 'UIGUni', '$2y$10$Nw5TP0p5CbjdxznCQBFMZ.eS.Ad1fr5kETPvdkZPHbNECSSzlFV2W', NULL, 'usuario', 'Unidad de Igualdad de Género', 'UIG', 1),
-(10, 'UEVUni', '$2y$10$/aaeuKXxtEwnfsVcBUa4KeSSeK3/VFGwt6rviGob/0mO8yqjQDMOu', NULL, 'usuario', NULL, 'UEV', 1),
+(10, 'UEVUni', '$2y$10$/aaeuKXxtEwnfsVcBUa4KeSSeK3/VFGwt6rviGob/0mO8yqjQDMOu', NULL, 'usuario', 'Unidad Especializada en Atención a Víctimas de Violencia', 'UEV', 1),
 (11, 'UNMUni', '$2y$10$5KmeB8/NaJaqp7k9ZYa3HOrgeZMBwIFPeAiNPamT2GGZMdB5RnCia', NULL, 'usuario', 'Unidad de Normatividad Municipal', 'UNM', 1),
 (12, 'UTAUni', '$2y$10$9Aceh9NGQbY9.NjJ.EN.meiIHQ50x2GMYwhhjZXSpA8xiLNtTa1SC', NULL, 'usuario', 'Unidad de Transparencia', 'UTA', 1),
 (13, 'DSTDir', '$2y$10$Cc.rRTE9F2gCrvVNeyDy.OVMIAtChTPzEnc2tzSsBNhYH3Xp7yFA2', NULL, 'usuario', 'Dirección de Seguridad Pública y Tránsito', 'DST', 1),
@@ -1044,23 +1017,23 @@ INSERT INTO `usuarios` (`id`, `usr`, `clave`, `correo`, `rol`, `dependenciaArea`
 (16, 'DRCDir', '$2y$10$WoYQP/EshRKzqXDiroCWIOGo63sG7D3ljiNb0fmtxUgOI0OYZ8eZe', NULL, 'usuario', 'Dirección de Registro Civil', 'DRC', 1),
 (17, 'DGODir', '$2y$10$bgCUY8sYyq21JMgXkZZL6uVBQUkj4yCaRqKFvoew/oKDE2dBpNZqy', NULL, 'usuario', 'Dirección de Gobernación', 'DGO', 1),
 (18, 'REGDir', '$2y$10$Pt5/XQqgL7eP6uUdf5xMDexR/se1WzUfLB4eTfLkQt5zMW6sPRZg2', NULL, 'usuario', 'Dirección de Actividades Comerciales', 'REG', 1),
-(19, 'DTUDir', '$2y$10$lfCpn15.SkHfOxttTRl.x.RW1x1c9QXyjbkXRiMyaAXJLP33OOOpu', NULL, 'usuario', NULL, 'DTU', 1),
+(19, 'DTUDir', '$2y$10$lfCpn15.SkHfOxttTRl.x.RW1x1c9QXyjbkXRiMyaAXJLP33OOOpu', NULL, 'usuario', 'Dirección de Turismo', 'DTU', 1),
 (20, 'DPEDir', '$2y$10$6lu8XnVyI.XWHGICeB8duO0sHdxuPXdEsysyR18C/QC36X8dCkx3W', NULL, 'usuario', 'Dirección de Pesca', 'DPE', 1),
 (21, 'DDEDir', '$2y$10$mD7a7j91ggaJipubPPEEB.hvSfKxoNPMtwruUIfWhJ1Q.5nMoS.xW', NULL, 'usuario', 'Dirección de Desarrollo Económico', 'DDE', 1),
 (22, 'DDRDir', '$2y$10$F.3.t0IbEIAs.Gaf.QMmPOtgsHesQf0ZBSGo.Loy1taQdofMTiEQq', NULL, 'usuario', 'Dirección de Desarrollo Rural', 'DDR', 1),
 (23, 'DIFDir', '$2y$10$elF1BWLHQqWMgnEPHCL6P.iYOCVgP30y26/9A535hACO51o3zcRwu', NULL, 'usuario', 'Dirección de Desarrollo Integral de la Familia', 'DIF', 1),
 (24, 'DSODir', '$2y$10$WOdS6WGppbVm1/NPhy1lfuPOfHUF4zr45LEET3rcUW7MsBbm/6W/a', NULL, 'usuario', 'Dirección de Desarrollo Social y Humano', 'DSO', 1),
 (25, 'DSADir', '$2y$10$1n9VVvmpwQtjfrec7qDFzu9GuCYygRDAuqQg1S8vAm7d6A2Sn3JyG', NULL, 'usuario', 'Direcció de Salud', 'DSA', 1),
-(26, 'DEMDir', '$2y$10$t2iVAhgcjW2uu3ji9JAriOA9v1ZRLeClwNEv/UHIyYEmS/9CqEhV.', NULL, 'usuario', NULL, 'DEM', 1),
-(27, 'IMMIns', '$2y$10$pTTssx3RiXNIJJifZtIEsulYtlZsAMf7Gwm81TJKMxeqma.VU2NbG', NULL, 'usuario', NULL, 'IMM', 1),
+(26, 'DEMDir', '$2y$10$t2iVAhgcjW2uu3ji9JAriOA9v1ZRLeClwNEv/UHIyYEmS/9CqEhV.', NULL, 'usuario', 'Dirección de Unidad Municipal de Especialidades Médicas', 'DEM', 1),
+(27, 'IMMIns', '$2y$10$pTTssx3RiXNIJJifZtIEsulYtlZsAMf7Gwm81TJKMxeqma.VU2NbG', NULL, 'usuario', 'Instituto Municipal de la Mujer', 'IMM', 1),
 (28, 'DEDDir', '$2y$10$1EoJQu6NABQFMbIQFtJ6WuzYaS2vOCHSeN/EoauvGFRtAlVu/txH6', NULL, 'usuario', 'Dirección de Educación', 'DED', 1),
 (29, 'IMJIns', '$2y$10$mqwmXnrPtixIMRIBzSTsaeqxGLeqIUm3vrgi2yrDmyQPQaZ.eGm/a', NULL, 'usuario', 'Instituto Municipal de la Juventud', 'IMJ', 1),
 (30, 'IMCIns', '$2y$10$L4R6nxR7JgPxDPZPx2P2neV4CVIKMxhT0p4rD8vCjz4uahjLxK5m6', NULL, 'usuario', 'Instituto Municipal de la Cultura', 'IMC', 1),
 (31, 'IMDIns', '$2y$10$p5mp2fT1cWz/Amn5XjTfROw96hypqMWFVW39lG5kkoF7jEGq7Wmpy', NULL, 'usuario', 'Instituto Municipal del Deporte', 'IMD', 1),
 (32, 'DSPDir', '$2y$10$pFl6NJ.dO6WIbkblTLeR/ePVIz2IzHEuL3G4YpNyVi9H55va8IlS2', NULL, 'usuario', 'Dirección de Servicios Públicos', 'DSP', 1),
-(33, 'DOPDir', '$2y$10$HZU.LnRwWsbKAFZBGpA15ub88sVxDCBCv/NVcIiU4UEj0iPiTehwW', NULL, 'usuario', NULL, 'DOP', 1),
+(33, 'DOPDir', '$2y$10$HZU.LnRwWsbKAFZBGpA15ub88sVxDCBCv/NVcIiU4UEj0iPiTehwW', NULL, 'usuario', 'Dirección de Obras Públicas', 'DOP', 1),
 (34, 'DMADir', '$2y$10$/NHwAMGzqjj08sBpnr1WfuuU9DoCg4/31kB9ZEpAuY0N87IhrS4nW', NULL, 'usuario', 'Dirección de Medio Ambiente y Recursos Naturales', 'DMA', 1),
-(35, 'IEDIns', '$2y$10$k1ryv3ppGOi2Zp/bx2gmFOE.LawoXUUjjPZg5hDpet2REZ/ouIPhW', NULL, 'usuario', NULL, 'IED', 1),
+(35, 'IEDIns', '$2y$10$k1ryv3ppGOi2Zp/bx2gmFOE.LawoXUUjjPZg5hDpet2REZ/ouIPhW', NULL, 'usuario', 'Instituto Municipal de Ecología y Desarrollo Sustentable', 'IED', 1),
 (36, 'DMUDir', '$2y$10$E7YFrcVNYdNVpbOGtifptuYa1tNsk2BKYpna7IlcdmweAfhhZIEzm', NULL, 'usuario', 'Dirección de Mejoramiento Urbano', 'DMU', 1),
 (37, 'DDUDir', '$2y$10$TcJZrffaXGGqdug/NVS87.wIVEG.E9suy1jFs9Wkoqyy28EsIHYFy', NULL, 'usuario', 'Dirección de Desarrollo Urbano', 'DDU', 1),
 (38, 'DOTDir', '$2y$10$sUkVwfxQQefcvo2vIE6HqerTw9zcXj6wEwlXJ/4X8SUkywqdmmS4a', NULL, 'usuario', 'Dirección de Ordenamiento Territorial', 'DOT', 1),
@@ -1071,7 +1044,7 @@ INSERT INTO `usuarios` (`id`, `usr`, `clave`, `correo`, `rol`, `dependenciaArea`
 (43, 'DCADir', '$2y$10$DnG.F0i7UknDhwmM97RrYevvdfW75iZhpc0mnfpi8soPJjyUzCjzi', NULL, 'usuario', 'Dirección de Catastro', 'DCA', 1),
 (44, 'DINDir', '$2y$10$GX7ramVr7DfkshVK9f8pnefCrJMCjui3No0UO1MAeUWCrG8HKySRi', NULL, 'usuario', 'Dirección de Ingresos', 'DIN', 1),
 (45, 'DEGDir', '$2y$10$pFPWy6tfhbPjVPOCsa8K7eopmMRs3/uTizzFZcDCuSN6h/2FVQ6/u', NULL, 'usuario', 'Dirección de Egresos', 'DEG', 1),
-(46, 'ZFMDir', '$2y$10$HPYgKQFlMa9dJEIJYG0cGeN3PWPkY93z2b.dvFrplNkYHhsEY7Q4i', NULL, 'usuario', 'ZOFEMAT', 'ZFM', 1),
+(46, 'ZFMDir', '$2y$10$HPYgKQFlMa9dJEIJYG0cGeN3PWPkY93z2b.dvFrplNkYHhsEY7Q4i', NULL, 'usuario', 'Dirección de Zona Federal Marítimo Terrestre', 'ZFM', 1),
 (47, 'DCPDir', '$2y$10$qALc7D7BirhBQi6BfCcx3eRZr9d4d7jHWw9VLhgwFPawlheYLN78a', NULL, 'usuario', 'Dirección de Cuentas Pública', 'DCP', 1),
 (48, 'OFMOfi', '$2y$10$70ae8AReFQ6jEyoABWiEoOsdkAU8UBhKD6wTksxWF5NyS/HaII//6', NULL, 'usuario', 'Oficialia Mayor', 'OFM', 1),
 (49, 'DRHDir', '$2y$10$poVXE7.iYP6AiO4fgP55WOtp0ijIAYLTd09Im/pZDPnGilQHCafMC', NULL, 'usuario', 'Dirección de Recursos Humanos', 'DRH', 1),
@@ -1079,10 +1052,10 @@ INSERT INTO `usuarios` (`id`, `usr`, `clave`, `correo`, `rol`, `dependenciaArea`
 (51, 'DPVDir', '$2y$10$IQnuWH0VBxmPA.3sv2PIn.fH4zbO39LlJ9RodSkDCmYedygurwgWy', NULL, 'usuario', 'Dirección de Parque Vihicular', 'DPV', 1),
 (52, 'DSGDir', '$2y$10$8xGxcYBY6Y3LUq.K..x04Ob1xpJ5QvCC7iwqsls.DEheZRmIJtR.y', NULL, 'usuario', 'Dirección de Servicios Generales', 'DSG', 1),
 (53, 'DCBDir', '$2y$10$QdPxQFqGYO16F80P/9axOO2Q5PfHwZ68HCXzD1g7V8d1bHec45UjW', NULL, 'usuario', 'Dirección de Control de Bienes y Muebles', 'DCB', 1),
-(54, 'DPLDir', '$2y$10$XxGuYMzySuIJk8Ku7cJ89eHVQD3E0waqETENPeLhjd09YbGk0WHD6', 'planeacion@zihuatanejodeazueta.gob.mx', 'admin', 'Dirección de Planeación', 'DPL', 1),
-(55, 'UMRUni', '$2y$10$2hgVa557PUq/wkAYCUnNpu83bHMCfunrPrdEE04DlJlBFgqgnziBq', 'mejoraregulatoria@zihuatanejodeazueta.gob.mx', 'admin', 'Unidad de Mejora Regulatoria', 'UMR', 1),
-(56, 'ITEIns', '$2y$10$Scn3yxzTSmdgprPbiay2tOUihnOIIm/J9dn1Ds3otiQWLB3zEGj0W', 'evaluacionaldesempeno@zihuatanejodeazueta.gob.mx', 'admin', 'Instancia Técnica de Evaluación al Desempeño', 'ITE', 1),
-(57, 'COMCom', '$2y$10$yC6ER1.hPSiZjgRr1K2tN.im6dHeCbxb8M6Fct2TUwgjYSRz8kHCq', NULL, 'usuario', NULL, 'COM', 1),
+(54, 'DPLDir', '$2y$10$eC.xbQw1MGsyoa69VZAoRejAs45tvtlwEX4kV80OQ4zX8/wQ20FCC', 'planeacion@zihuatanejodeazueta.gob.mx', 'admin', 'Dirección de Planeación', 'DPL', 1),
+(55, 'UMRUni', '$2y$10$67A.X/pQxHhNWH/OO6J3PuauGj6tGoILEDYzVCTeS7pTHhYApZF16', 'mejoraregulatoria@zihuatanejodeazueta.gob.mx', 'admin', 'Unidad de Mejora Regulatoria', 'UMR', 1),
+(56, 'ITEIns', '$2y$10$jCPk7ISfKtRNACri2RGpb.V3c8LeB0w/e3q0omzLkIxwi55gdh0n6', 'evaluacionaldesempeno@zihuatanejodeazueta.gob.mx', 'admin', 'Instancia Técnica de Evaluación al Desempeño', 'ITE', 1),
+(57, 'COMCom', '$2y$10$yC6ER1.hPSiZjgRr1K2tN.im6dHeCbxb8M6Fct2TUwgjYSRz8kHCq', NULL, 'usuario', 'Comuna', 'COM', 1),
 (58, 'RGIReg', '$2y$10$Dp042A54YAfGDzPb9O4EROW2AHCbe09bYi.3.lL.diuDwWhsYJJRu', NULL, 'usuario', 'Regidurías', 'RGI', 1),
 (59, 'SADPri', '$2y$10$0tzY9DZJpDdoDRWxf5eLcu2FFRMMHz0GC3dQu6qXIaKPBcYGK0IAW', NULL, 'usuario', 'Primera Sindicatura', 'SAD', 1),
 (60, 'SGOSeg', '$2y$10$x.JvjPzdA9rBT1.Guu4.QehDPq4zJGpuOvTBpB8.4gUTmhPb99UNu', NULL, 'usuario', 'Segunda Sindicatura', 'SGO', 1),
@@ -1098,7 +1071,7 @@ INSERT INTO `usuarios` (`id`, `usr`, `clave`, `correo`, `rol`, `dependenciaArea`
 (70, 'REQReg', '$2y$10$ft83z4waKhcHyDGAPTNZcuy6y3xwcdPow1qLkzJYBM/nPUjIfs0Zm', NULL, 'usuario', 'Regiduría de Equidad, Género ', 'REQ', 1),
 (71, 'RDRReg', '$2y$10$q6c25l28qyivROaN.AZnwuY4fnSvMs.ofTMGdJfWyEVC/QgMNNBOi', NULL, 'usuario', 'Regiduría de Desarrollo Rural', 'RDR', 1),
 (72, 'RSPReg', '$2y$10$xMlXq1e6pNeVnhQdo8V4teXD9e2gYimlv8x69rlaNm4lIOvwO/esu', NULL, 'usuario', 'Regiduría de Servicios Públicos', 'RSP', 1),
-(73, 'Sandez01', '$2y$10$p7hniIMAboFFWdlDDvMwxuO17bgNqFOGkBp/yzfqomY5eEjuIl53K', 'santiagohc410@gmail.com', 'admin', 'Unidad de Mejora Regulatoria', 'UMR', 1);
+(73, 'Sandez01', '$2y$10$AdRhbqJRWnB0vDgwtx7fcOeVz0znE.72ZrabIJb5gglnavOgD.Yj.', 'santiagohc410@gmail.com', 'admin', 'Unidad de Mejora Regulatoria', 'UMR', 0);
 
 --
 -- Índices para tablas volcadas
@@ -1163,7 +1136,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `avances_mensuales`
 --
 ALTER TABLE `avances_mensuales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=641;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `listaactividades`
@@ -1187,7 +1160,7 @@ ALTER TABLE `unidadesresponsables`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(155) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int(155) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- Restricciones para tablas volcadas
