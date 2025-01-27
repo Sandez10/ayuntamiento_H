@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-01-2025 a las 17:49:35
+-- Tiempo de generación: 27-01-2025 a las 21:52:24
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -733,7 +733,8 @@ INSERT INTO `listaactividades` (`nombre_area`, `claveProgramaP`, `nombrePrograma
 ('DST', 'F009', 'Gestión Eficiente de los Recursos Humanos, Materiales y Tecnológicos', 'Capacitación al personal de Seguridad pública en atención a mujeres víctimas de violencia', 685, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('IMM', 'F009', 'Gestión Eficiente de los Recursos Humanos, Materiales y Tecnológicos', 'Coordinación y gestión del Sistema Municipal para prevenir, atender, sancionar y erradicar la violencia contra las mujeres', 686, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('UEV', 'F009', 'Gestión Eficiente de los Recursos Humanos, Materiales y Tecnológicos', 'Control y administración de recursos humanos', 687, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('IMM', 'F009', 'Gestión Eficiente de los Recursos Humanos, Materiales y Tecnológicos', 'Control y administración de recursos humanos', 688, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+('IMM', 'F009', 'Gestión Eficiente de los Recursos Humanos, Materiales y Tecnológicos', 'Control y administración de recursos humanos', 688, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('AP', 'Z001', 'Ambiente de Prueba de SIPSEPP', 'Demostración de la Plataforma', 689, '1. Desarrollo Humano y Cohesión social', 'Demostración de Prueba', 'Porcentaje de la población en carencia social alimentaria beneficada con la entrega de apoyos alimentarios.  (Discapacitados y adultos mayores)', 'trimestral', 'Uso corrrecto', 250, 100, 50, 50, 50, 'Medios de comunicación');
 
 -- --------------------------------------------------------
 
@@ -751,6 +752,7 @@ CREATE TABLE `listapp` (
 --
 
 INSERT INTO `listapp` (`claveProgramaP`, `nombreProgramaP`) VALUES
+('Z001', 'Ambiente de Prueba de SIPSEPP'),
 ('F005', 'Apoyo al Deporte'),
 ('S002', 'Atención al Desarrollo Integral de la Familia y Grupos Vulnerables'),
 ('M002', 'Cabildo Eficiente con Representación Popular'),
@@ -876,7 +878,8 @@ INSERT INTO `programas` (`id`, `clave_area`, `beneficiarioTotal`, `montoAP`, `mo
 (69, 'RMA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (70, 'REQ', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (71, 'RDR', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(72, 'RSP', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(72, 'RSP', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(315, 'AP', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -902,8 +905,8 @@ INSERT INTO `unidadesresponsables` (`id`, `clave_area`, `nombre_area`, `clavePro
 (164, 'DED', 'Dirección de Educación', 'S001'),
 (165, 'DIF', 'Dirección de Desarrollo Integral de la Familia', 'S002'),
 (166, 'IMJ', 'Instituto Municipal de la Juventud', 'F001'),
-(167, 'DSA', 'Direcció de Salud', 'F002'),
-(168, 'UEM', 'Dirección de Unidad Municipal de Especialidades Médicas', 'F002'),
+(167, 'DSA', 'Dirección de Salud', 'F002'),
+(168, 'DEM', 'Dirección de Unidad Municipal de Especialidades Médicas', 'F002'),
 (169, 'DED', 'Direcció de Educación', 'F003'),
 (170, 'DIF', 'Dirección de Desarrollo Integral de la Familia', 'F003'),
 (171, 'IMC', 'Instituto Municipal de la Cultura', 'F004'),
@@ -975,7 +978,8 @@ INSERT INTO `unidadesresponsables` (`id`, `clave_area`, `nombre_area`, `clavePro
 (237, 'DPL', 'Dirección de Planeación', 'P001'),
 (238, 'ITE', 'Instancia Técnica de Evaluación al Desempeño', 'P001'),
 (239, 'UMR', 'Unidad de Mejora Regulatoria', 'P001'),
-(240, 'PRY', 'Dirección de Proyectos Estratégicos', 'P001');
+(240, 'PRY', 'Dirección de Proyectos Estratégicos', 'P001'),
+(242, 'AP', 'SIPSEPP', 'Z001');
 
 -- --------------------------------------------------------
 
@@ -1021,7 +1025,7 @@ INSERT INTO `usuarios` (`id`, `usr`, `clave`, `correo`, `rol`, `dependenciaArea`
 (20, 'DPEDir', '$2y$10$6lu8XnVyI.XWHGICeB8duO0sHdxuPXdEsysyR18C/QC36X8dCkx3W', NULL, 'usuario', 'Dirección de Pesca', 'DPE', 1),
 (21, 'DDEDir', '$2y$10$mD7a7j91ggaJipubPPEEB.hvSfKxoNPMtwruUIfWhJ1Q.5nMoS.xW', NULL, 'usuario', 'Dirección de Desarrollo Económico', 'DDE', 1),
 (22, 'DDRDir', '$2y$10$F.3.t0IbEIAs.Gaf.QMmPOtgsHesQf0ZBSGo.Loy1taQdofMTiEQq', NULL, 'usuario', 'Dirección de Desarrollo Rural', 'DDR', 1),
-(23, 'DIFDir', '$2y$10$elF1BWLHQqWMgnEPHCL6P.iYOCVgP30y26/9A535hACO51o3zcRwu', NULL, 'usuario', 'Dirección de Desarrollo Integral de la Familia', 'DIF', 1),
+(23, 'DIFDir', '$2y$10$cQZHM.x6pmf1reWlnxO8HeB4ZtRDuUiYd0vcDC3TWylQKnzHiuCIa', NULL, 'usuario', 'Dirección de Desarrollo Integral de la Familia', 'DIF', 0),
 (24, 'DSODir', '$2y$10$WOdS6WGppbVm1/NPhy1lfuPOfHUF4zr45LEET3rcUW7MsBbm/6W/a', NULL, 'usuario', 'Dirección de Desarrollo Social y Humano', 'DSO', 1),
 (25, 'DSADir', '$2y$10$1n9VVvmpwQtjfrec7qDFzu9GuCYygRDAuqQg1S8vAm7d6A2Sn3JyG', NULL, 'usuario', 'Direcció de Salud', 'DSA', 1),
 (26, 'DEMDir', '$2y$10$t2iVAhgcjW2uu3ji9JAriOA9v1ZRLeClwNEv/UHIyYEmS/9CqEhV.', NULL, 'usuario', 'Dirección de Unidad Municipal de Especialidades Médicas', 'DEM', 1),
@@ -1052,7 +1056,7 @@ INSERT INTO `usuarios` (`id`, `usr`, `clave`, `correo`, `rol`, `dependenciaArea`
 (51, 'DPVDir', '$2y$10$IQnuWH0VBxmPA.3sv2PIn.fH4zbO39LlJ9RodSkDCmYedygurwgWy', NULL, 'usuario', 'Dirección de Parque Vihicular', 'DPV', 1),
 (52, 'DSGDir', '$2y$10$8xGxcYBY6Y3LUq.K..x04Ob1xpJ5QvCC7iwqsls.DEheZRmIJtR.y', NULL, 'usuario', 'Dirección de Servicios Generales', 'DSG', 1),
 (53, 'DCBDir', '$2y$10$QdPxQFqGYO16F80P/9axOO2Q5PfHwZ68HCXzD1g7V8d1bHec45UjW', NULL, 'usuario', 'Dirección de Control de Bienes y Muebles', 'DCB', 1),
-(54, 'DPLDir', '$2y$10$eC.xbQw1MGsyoa69VZAoRejAs45tvtlwEX4kV80OQ4zX8/wQ20FCC', 'planeacion@zihuatanejodeazueta.gob.mx', 'admin', 'Dirección de Planeación', 'DPL', 1),
+(54, 'DPLDir', '$2y$10$WvkF1rcMqsU7mV.bSjN30OmfU6Fj4ZSUhtluPURIfNjoF6dWokdkK', 'planeacion@zihuatanejodeazueta.gob.mx', 'admin', NULL, NULL, 1),
 (55, 'UMRUni', '$2y$10$67A.X/pQxHhNWH/OO6J3PuauGj6tGoILEDYzVCTeS7pTHhYApZF16', 'mejoraregulatoria@zihuatanejodeazueta.gob.mx', 'admin', 'Unidad de Mejora Regulatoria', 'UMR', 1),
 (56, 'ITEIns', '$2y$10$jCPk7ISfKtRNACri2RGpb.V3c8LeB0w/e3q0omzLkIxwi55gdh0n6', 'evaluacionaldesempeno@zihuatanejodeazueta.gob.mx', 'admin', 'Instancia Técnica de Evaluación al Desempeño', 'ITE', 1),
 (57, 'COMCom', '$2y$10$yC6ER1.hPSiZjgRr1K2tN.im6dHeCbxb8M6Fct2TUwgjYSRz8kHCq', NULL, 'usuario', 'Comuna', 'COM', 1),
@@ -1071,7 +1075,8 @@ INSERT INTO `usuarios` (`id`, `usr`, `clave`, `correo`, `rol`, `dependenciaArea`
 (70, 'REQReg', '$2y$10$ft83z4waKhcHyDGAPTNZcuy6y3xwcdPow1qLkzJYBM/nPUjIfs0Zm', NULL, 'usuario', 'Regiduría de Equidad, Género ', 'REQ', 1),
 (71, 'RDRReg', '$2y$10$q6c25l28qyivROaN.AZnwuY4fnSvMs.ofTMGdJfWyEVC/QgMNNBOi', NULL, 'usuario', 'Regiduría de Desarrollo Rural', 'RDR', 1),
 (72, 'RSPReg', '$2y$10$xMlXq1e6pNeVnhQdo8V4teXD9e2gYimlv8x69rlaNm4lIOvwO/esu', NULL, 'usuario', 'Regiduría de Servicios Públicos', 'RSP', 1),
-(73, 'Sandez01', '$2y$10$AdRhbqJRWnB0vDgwtx7fcOeVz0znE.72ZrabIJb5gglnavOgD.Yj.', 'santiagohc410@gmail.com', 'admin', 'Unidad de Mejora Regulatoria', 'UMR', 0);
+(73, 'Sandez01', '$2y$10$AdRhbqJRWnB0vDgwtx7fcOeVz0znE.72ZrabIJb5gglnavOgD.Yj.', 'santiagohc410@gmail.com', 'admin', 'Unidad de Mejora Regulatoria', 'UMR', 0),
+(78, 'UsrP', '$2y$10$faI0VknmolhJlh0DaRyBqODabWoJte9qTRK.cAbXtCdhHd/qxIcQS', 'test@zihuatanejodeazueta.gob.mx', '', 'SIPSEPP', 'AP', 1);
 
 --
 -- Índices para tablas volcadas
@@ -1136,31 +1141,31 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `avances_mensuales`
 --
 ALTER TABLE `avances_mensuales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `listaactividades`
 --
 ALTER TABLE `listaactividades`
-  MODIFY `id_actividades` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=689;
+  MODIFY `id_actividades` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=690;
 
 --
 -- AUTO_INCREMENT de la tabla `programas`
 --
 ALTER TABLE `programas`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=315;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=316;
 
 --
 -- AUTO_INCREMENT de la tabla `unidadesresponsables`
 --
 ALTER TABLE `unidadesresponsables`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=241;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=243;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(155) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` int(155) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- Restricciones para tablas volcadas
