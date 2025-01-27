@@ -21,33 +21,52 @@ while ($stmt->fetch()) {
 }
 
 // Actualizar el usuario
+// Actualizar usuario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
-        // Validación de correo
-        $patron_correo = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
-        $correo_valido = preg_match($patron_correo, $nuevo_correo);
     $usuario_id = $_POST['usuario_id'];
     $nuevo_usr = $_POST['usuario'];
     $nuevo_correo = $_POST['correo'];
     $nueva_clave_temporal = $_POST['clave_temporal'];
     $nuevo_rol = $_POST['rol'];
-    $nueva_area = $_POST['dependeciaArea'];
-    $nueva_ClaveArea = $_POST['clave_area'];
+    $nueva_area = $_POST['dependenciaArea'];
+
+    // Validación de correo
+    $patron_correo = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+    $correo_valido = preg_match($patron_correo, $nuevo_correo);
 
     if (!$correo_valido) {
-        echo "<div class='alert alert-warning'>Por favor, use un correo válido.</div>";
+        echo "<p style='color: red;'>Por favor, use un correo válido.</p>";
     } else {
-        $queryUpdate = "UPDATE usuarios SET usr = ?, correo = ?, rol = ?, clave = ?, password_reset_required = 1 WHERE id = ?";
+        $queryUpdate = "UPDATE usuarios SET usr = ?, correo = ?, rol = ?, dependenciaArea = ?";
+
+        // Si se proporcionó una nueva contraseña, inclúyela en la actualización
+        if (!empty($nueva_clave_temporal)) {
+            $clave_encriptada = password_hash($nueva_clave_temporal, PASSWORD_DEFAULT);
+            $queryUpdate .= ", clave = ?, password_reset_required = 1";
+        }
+
+        $queryUpdate .= " WHERE id = ?";
+        
         $stmtUpdate = $conn->prepare($queryUpdate);
 
-        // Encriptar contraseña temporal si se asigna
-        $clave_temporal_encriptada = password_hash($nueva_clave_temporal, PASSWORD_DEFAULT);
+        // Bind de parámetros según se haya proporcionado contraseña
+        if (!empty($nueva_clave_temporal)) {
+            $stmtUpdate->bind_param("sssssi", $nuevo_usr, $nuevo_correo, $nuevo_rol, $nueva_area, $clave_encriptada, $usuario_id);
+        } else {
+            $stmtUpdate->bind_param("ssssi", $nuevo_usr, $nuevo_correo, $nuevo_rol, $nueva_area, $usuario_id);
+        }
 
-        $stmtUpdate->bind_param("ssssi", $nuevo_usr, $nuevo_correo, $nuevo_rol, $clave_temporal_encriptada, $usuario_id);
-        $stmtUpdate->execute();
-        echo "<p style='color: green;'>Usuario actualizado correctamente con contraseña temporal.</p>";
+        // Ejecutar y verificar la actualización
+        if ($stmtUpdate->execute()) {
+            echo "<p style='color: green;'>Usuario actualizado correctamente.</p>";
+        } else {
+            echo "<p style='color: red;'>Error al actualizar el usuario: " . $stmtUpdate->error . "</p>";
+        }
+
         $stmtUpdate->close();
     }
 }
+
 
 // Eliminar usuario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
@@ -65,34 +84,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
 
 // Crear usuario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
-    $nuevo_usr = $_POST['usuario']; // Nombre de usuario
-    $nuevo_correo = $_POST['correo']; // Correo electrónico
-    $nueva_clave_temporal = $_POST['clave_temporal']; // Contraseña temporal
-    $nuevo_rol = $_POST['rol']; // Rol del usuario
-    $nueva_area = $_POST['dependeciaArea']; // Área de dependencia
-    $nueva_clave_area = $_POST['clave_area']; // Clave del área
+    $nuevo_usr = $_POST['usuario'];
+    $nuevo_correo = $_POST['correo'];
+    $nueva_clave_temporal = $_POST['clave_temporal'];
+    $nuevo_rol = $_POST['rol'];
+    $nueva_area = $_POST['dependeciaArea'];
+    $nueva_clave_area = $_POST['clave_area'];
 
-    // Encriptar contraseña
-    $clave_encriptada = password_hash($nueva_clave_temporal, PASSWORD_DEFAULT);
+    // Validación de correo
+    $patron_correo = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+    $correo_valido = preg_match($patron_correo, $nuevo_correo);
 
-    // Consulta para crear usuario
-    $queryCreate = "INSERT INTO usuarios (usr, clave, correo, rol, dependenciaArea, clave_area, password_reset_required) 
-                    VALUES (?, ?, ?, ?, ?, ?, 1)";
-    $stmtCreate = $conn->prepare($queryCreate);
-
-    // Asignar parámetros
-    $stmtCreate->bind_param("ssssss", $nuevo_usr, $clave_encriptada, $nuevo_correo, $nuevo_rol, $nueva_area, $nueva_clave_area);
-
-    // Ejecutar y verificar
-    if ($stmtCreate->execute()) {
-        echo "<p style='color: green;'>Usuario creado correctamente.</p>";
+    if (!$correo_valido) {
+        echo "<p style='color: red;'>Por favor, use un correo válido.</p>";
     } else {
-        echo "<p style='color: red;'>Error al crear el usuario: " . $stmtCreate->error . "</p>";
+        // Encriptar contraseña
+        $clave_encriptada = password_hash($nueva_clave_temporal, PASSWORD_DEFAULT);
+
+        $queryCreate = "INSERT INTO usuarios (usr, clave, correo, rol, dependenciaArea, clave_area, password_reset_required) 
+                        VALUES (?, ?, ?, ?, ?, ?, 1)";
+        $stmtCreate = $conn->prepare($queryCreate);
+        $stmtCreate->bind_param("ssssss", $nuevo_usr, $clave_encriptada, $nuevo_correo, $nuevo_rol, $nueva_area, $nueva_clave_area);
+
+        if ($stmtCreate->execute()) {
+            echo "<p style='color: green;'>Usuario creado correctamente.</p>";
+        } else {
+            echo "<p style='color: red;'>Error al crear el usuario: " . $stmtCreate->error . "</p>";
+        }
+
+        $stmtCreate->close();
     }
-
-    $stmtCreate->close();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -107,22 +129,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
 </head>
 <body>
     <div class="header">
-        <div class="logo"><img src="../img/zihua.png" alt="Logo"></div>
+            <a href="../plataforma/dashboard.php" target="_blank">
         <div class="user-options">
-            <p>Bienvenido, <?= $_SESSION['usuario']; ?>!</p>
+            <p>Bienvenido, <?= htmlspecialchars($_SESSION['usuario']); ?>!</p>
             <a href="../sesiones_conexiones/destruir_sesion.php" class="logout-icon">
                 <i class="fa-sharp fa-solid fa-arrow-right-from-bracket fa-2xl" style="color: #ffffff;"></i>
             </a>
         </div>
     </div>
-
+<!--
     <div class="sidebar">
         <nav>
             <ul><li><a href="../plataforma/dashboard.php">Dashboard</a></li></ul>
             <ul><li><a href="../formularios/pre_a.php">Mostrar Actividades</a></li></ul>
         </nav>
     </div>
-
+-->
     <div class="main-content">
         <h2 class="header-text">Administrar Usuarios</h2>
 
@@ -171,7 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
                         <option value="user" <?= ($rol == 'user') ? 'selected' : '' ?>>Usuario</option>
                     </select>
                 </label><br>
-                <label>Área: <input type="text" name="area" value="<?= $dependencia ?>"></label><br> 
+                <label>Área: <input type="text" name="dependenciaArea" value="<?= $dependencia ?>"></label><br> 
                 <button type="submit" class="btn btn-success" name="update">Actualizar</button>
                 <button type="submit" class="btn btn-danger" name="delete" onclick="return confirmarEliminacion()">Eliminar Usuario</button>
             </form>
@@ -209,7 +231,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
 
         <!-- Área -->
         <label>Área: 
-            <input type="text" name="clave_area" required placeholder="Clave del área">
+            <input type="text" name="dependenciaArea" required placeholder="Clave del área">
         </label><br>
 
         <!-- Clave del Área -->
@@ -221,6 +243,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
         <button type="submit" class="btn btn-primary" name="create">Crear Usuario</button>
     </form>
 </div>
+<button type="button" class="btn btn-secondary" onclick="location.href='../plataforma/dashboard.php';">Regresar</button>
     </div>
 
     <script>
