@@ -46,18 +46,28 @@ if ($clavesResult->num_rows == 0) {
 
 // Estructura base de opciones
 $baseOpciones = [
-    ["title" => "Ver Avance", "link" => "../formularios/ProgramasPre.php"],
-    ["title" => "Mostrar Reporte de Avance", "link" => "#"]
+    ["title" => "Ver Programas", "link" => "../formularios/pre_a.php"]
+//    ["title" => "Mostrar Reporte de Avance", "link" => "#"],
+
 ];
 
 // Inicializar el menú con las opciones base para todos los usuarios
 $menuOpciones = [
     'default' => $baseOpciones,  // Menú base para todos los usuarios
+
 ];
 
 // Verificar si el usuario es admin y agregarle opciones adicionales
 if ($rol == 'admin') {
-    $menuOpciones['admin'] = array_merge([["title" => "Administrar Usuarios", "link" => "../sesiones_conexiones/actualizar_usr.php"]], $baseOpciones);
+    $menuOpciones['admin'] = array_merge([
+    ["title" => "Administrar Usuarios", "link" => "../sesiones_conexiones/actualizar_usr.php"],
+    ["title" => "Editar/Borrar Programas", "link" => "../formularios/programa_presupuestario/editarProg.php"],
+    ["title" => "Ver Programas", "link" => "../formularios/ProgramasPre.php"]]
+     );
+}
+else{
+    $menuOpciones['usuario'] = array_merge([],
+         $baseOpciones);
 }
 
 // Determinar las opciones del menú para el usuario según su rol
@@ -83,9 +93,9 @@ $opcionesMenu = $menuOpciones[$rol] ?? $menuOpciones['default'];
             <img src="../img/ZIHUA_c.png" alt="Logo">
         </div>
         <div class="user-options">
-            <a href="../sesiones_conexiones/editar_perfil.php" class="edit-profile-icon">
+<!--            <a href="../sesiones_conexiones/editar_perfil.php" class="edit-profile-icon">
                 <i class="fa-regular fa-user fa-2xl" style="color: #ffffff;"></i>
-            </a>
+            </a>-->
             <a href="../sesiones_conexiones/destruir_sesion.php" class="logout-icon">
                 <i class="fa-sharp fa-solid fa-arrow-right-from-bracket fa-2xl" style="color: #ffffff;"></i>
             </a>

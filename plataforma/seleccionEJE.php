@@ -29,7 +29,6 @@ if (!isset($_SESSION['usuario'])) {
                 <select name="ejercicio_fiscal" required>
                     <option value="" disabled selected>Selecciona el año</option>
                     <option value="2025">2025</option>
-                    <option value="2024">2024</option>
                 </select>
                 <button type="submit">Trabajar con este ejercicio</button>
             </form>
