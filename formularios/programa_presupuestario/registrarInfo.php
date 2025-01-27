@@ -94,7 +94,7 @@ $stmtActividades->execute();
 $resultActividades = $stmtActividades->get_result();
 
 // Obtener los datos generales (una vez)
-    $queryDatosGenerales = "SELECT nombreActividad, EjePMD, ObjetivoPMD, Indicador, frecuenciaMedición, unidadMedida,  metaAnual, metaTrim1, metaTrim2, metaTrim3, metaTrim4, MediosVerifi FROM listaactividades WHERE claveProgramaP = ? AND nombre_area = ? LIMIT 1";
+$queryDatosGenerales = "SELECT nombreActividad, EjePMD, ObjetivoPMD, Indicador, frecuenciaMedición, unidadMedida,  metaAnual, metaTrim1, metaTrim2, metaTrim3, metaTrim4, MediosVerifi FROM listaactividades WHERE claveProgramaP = ? AND nombre_area = ? LIMIT 1";
 $stmtDatosGenerales = $conn->prepare($queryDatosGenerales);
 $stmtDatosGenerales->bind_param("ss", $claveProgramaP, $clave_area);
 $stmtDatosGenerales->execute();

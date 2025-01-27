@@ -103,6 +103,8 @@ $result = $stmtProgramas->get_result();
                     <th>Avance Trimestre 4</th>
                     <th>% Trimestre (1-4)</th>
                     <th>Evidencia</th>
+                    <th>Opciones</th>
+
                 </tr>
             </thead>
             <tbody id="results">
@@ -144,48 +146,6 @@ $result = $stmtProgramas->get_result();
                                     Beneficiarios: " . $avance['avanceBeneficiario'];
                                     echo "<td><div><strong>Avance:</strong> " . htmlspecialchars($avance['avance']) . "</div><div><strong>Beneficiarios:</strong> " . htmlspecialchars($avance['avanceBeneficiario']) . "</div></td>";
                                 }                                
-                                // Código para sumar avances y beneficiarios
-/*                                
-                                $trim1 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 0, 3));
-                                $trim2 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 3, 3));
-                                $trim3 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 6, 3));
-                                $trim4 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 9, 3));
-
-                                $trim1Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 0, 3));
-                                $trim2Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 3, 3));
-                                $trim3Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 6, 3));
-                                $trim4Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 9, 3));
-
-                                $metaAnual = $actividad['metaAnual'];
-
-                                $trim1Percent = $metaAnual ? ($trim1 / $metaAnual) * 100 : 0;
-                                $trim2Percent = $metaAnual ? ($trim2 / $metaAnual) * 100 : 0;
-                                $trim3Percent = $metaAnual ? ($trim3 / $metaAnual) * 100 : 0;
-                                $trim4Percent = $metaAnual ? ($trim4 / $metaAnual) * 100 : 0;
-
-                                // Mostrar avances y beneficiarios acumulados
-                                echo "<td>Avance: " . number_format($trim1Percent, 2) . " | Beneficiarios: " . $trim1Benef . "</td>";
-                                echo "<td>Avance: " . number_format($trim2Percent, 2) . " | Beneficiarios: " . $trim2Benef . "</td>";
-                                echo "<td>Avance: " . number_format($trim3Percent, 2) . " | Beneficiarios: " . $trim3Benef . "</td>";
-                                echo "<td>Avance: " . number_format($trim4Percent, 2) . " | Beneficiarios: " . $trim4Benef . "</td>"; 
-*/
-/*
-                                $trim1 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 0, 3));
-                                $trim2 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 3, 3));
-                                $trim3 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 6, 3));
-                                $trim4 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 9, 3));
-
-                                $trim1Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 0, 3));
-                                $trim2Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 3, 3));
-                                $trim3Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 6, 3));
-                                $trim4Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 9, 3));
-
-                                // Mostrar los valores acumulados de los trimestres
-                                echo "<td><strong> Avance total: " . $trim1 . " | Beneficiarios: " . $trim1Benef . "</strong></td>";
-                                echo "<td><strong> Avance total: " . $trim2 . " | Beneficiarios: " . $trim2Benef . "</strong></td>";
-                                echo "<td><strong> Avance total: " . $trim3 . " | Beneficiarios: " . $trim3Benef . "</strong></td>";
-                                echo "<td><strong> Avance total: " . $trim4 . " | Beneficiarios: " . $trim4Benef . "</strong></td>";
-*/
 
                                     // Calcular los avances acumulados para cada trimestre
                                     $trim1 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 0, 3));
@@ -204,14 +164,6 @@ $result = $stmtProgramas->get_result();
                                     // Calcular el porcentaje acumulado de los avances en los 4 trimestres
                                     $avanceAcumulado = $trim4;  // El avance acumulado total es el de los 4 trimestres
                                     $porcentajeAcumulado = $metaAnual ? ($avanceAcumulado / $metaAnual) * 100 : 0;
-
-
-
-
-
-
-
-
 
                                 $trim1 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 0, 3));
                                 $trim2 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 3, 3)) + $trim1;
@@ -233,8 +185,18 @@ $result = $stmtProgramas->get_result();
 
                                 // Botón "Ver Evidencias"
                                 echo "<td><a href='evidencia.php?id_actividad=" . $actividad['id_actividades'] . "' class='btn btn-primary'>Ver Evidencias</a></td>";
-
+                                // Formulario de eliminación
+                                if ($rol == 'admin'){
+                                echo "<td>
+                                
+                                        <form action='eliminarAvance.php' method='POST'>
+                                            <input type='hidden' name='id_actividad' value='" . $actividad['id_actividades'] . "'>
+                                            <button type='submit' class='btn btn-danger'>Eliminar</button>
+                                        </form>
+                                    </td>";
+                                    
                                 $stmtAvances->close();
+                                }
                             }
                         } else {
                             echo "<tr><td colspan='15'>No se encontraron actividades para este programa.</td></tr>";

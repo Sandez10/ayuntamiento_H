@@ -122,7 +122,7 @@ $resultado = $stmtProgramas->get_result();
                         if ($rol === 'admin') {
                             echo "<button class='view-button' onclick='location.href=\"pre_a.php?claveProgramaP=" . urlencode($row['claveProgramaP']) . "\";'>Mostrar</button>";
 
-                        }
+                            }
                         else{
                             echo "<button class='view-button' onclick='location.href=\"programa_presupuestario/mas_info.php?claveProgramaP=" . urlencode($row['claveProgramaP']) . "\";'>ver Avance</button>";
                             echo "<button class='view-button' onclick='location.href=\"programa_presupuestario/registrarInfo.php?claveProgramaP=" . urlencode($row['claveProgramaP']) . "\";'>Registrar Avance</button>";

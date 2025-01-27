@@ -114,7 +114,7 @@ if ($resultado->num_rows > 0) {
 $stmtProgramas->close();
 $conn->close();
 ?>
-        <button type="button" class="btn btn-secondary" onclick="location.href='programasPre.php';">Regresar</button>
+        <button type="button" class="btn btn-secondary" onclick="location.href='../plataforma/dashboard.php';">Regresar</button>
             </tbody>
         </table>
     </div>
