@@ -102,7 +102,7 @@ $result = $stmtProgramas->get_result();
                     <th>Avance Trimestre 3</th>
                     <th>Avance Trimestre 4</th>
                     <th>% Trimestre (1-4)</th>
-                    <th>Evidencia</th>
+                    <th>Evidencias</th>
                     <th>Opciones</th>
 
                 </tr>
@@ -164,7 +164,7 @@ $result = $stmtProgramas->get_result();
                                     // Calcular el porcentaje acumulado de los avances en los 4 trimestres
                                     $avanceAcumulado = $trim4;  // El avance acumulado total es el de los 4 trimestres
                                     $porcentajeAcumulado = $metaAnual ? ($avanceAcumulado / $metaAnual) * 100 : 0;
-
+/*
                                 $trim1 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 0, 3));
                                 $trim2 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 3, 3)) + $trim1;
                                 $trim3 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 6, 3)) + $trim2;
@@ -174,6 +174,42 @@ $result = $stmtProgramas->get_result();
                                 $trim2Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 3, 3)) + $trim1Benef;
                                 $trim3Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 6, 3)) + $trim2Benef;
                                 $trim4Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 9, 3)) + $trim3Benef;
+*/
+// Código para sumar avances y beneficiarios
+/*                                
+                                $trim1 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 0, 3));
+                                $trim2 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 3, 3));
+                                $trim3 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 6, 3));
+                                $trim4 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 9, 3));
+
+                                $trim1Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 0, 3));
+                                $trim2Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 3, 3));
+                                $trim3Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 6, 3));
+                                $trim4Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 9, 3));
+
+                                $metaAnual = $actividad['metaAnual'];
+
+                                $trim1Percent = $metaAnual ? ($trim1 / $metaAnual) * 100 : 0;
+                                $trim2Percent = $metaAnual ? ($trim2 / $metaAnual) * 100 : 0;
+                                $trim3Percent = $metaAnual ? ($trim3 / $metaAnual) * 100 : 0;
+                                $trim4Percent = $metaAnual ? ($trim4 / $metaAnual) * 100 : 0;
+
+                                // Mostrar avances y beneficiarios acumulados
+                                echo "<td>Avance: " . number_format($trim1Percent, 2) . " | Beneficiarios: " . $trim1Benef . "</td>";
+                                echo "<td>Avance: " . number_format($trim2Percent, 2) . " | Beneficiarios: " . $trim2Benef . "</td>";
+                                echo "<td>Avance: " . number_format($trim3Percent, 2) . " | Beneficiarios: " . $trim3Benef . "</td>";
+                                echo "<td>Avance: " . number_format($trim4Percent, 2) . " | Beneficiarios: " . $trim4Benef . "</td>"; 
+*/
+
+                                $trim1 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 0, 3));
+                                $trim2 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 3, 3));
+                                $trim3 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 6, 3));
+                                $trim4 = array_sum(array_slice(array_column($avancesPorMes, 'avance'), 9, 3));
+
+                                $trim1Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 0, 3));
+                                $trim2Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 3, 3));
+                                $trim3Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 6, 3));
+                                $trim4Benef = array_sum(array_slice(array_column($avancesPorMes, 'avanceBeneficiario'), 9, 3));
 
                                 // Mostrar los valores acumulados de los trimestres
                                 echo "<td><strong> Avance total: " . $trim1 . " | Beneficiarios: " . $trim1Benef . "</strong></td>";
@@ -193,6 +229,7 @@ $result = $stmtProgramas->get_result();
                                             <input type='hidden' name='id_actividad' value='" . $actividad['id_actividades'] . "'>
                                             <button type='submit' class='btn btn-danger'>Eliminar</button>
                                         </form>
+                                        
                                     </td>";
                                     
                                 $stmtAvances->close();
