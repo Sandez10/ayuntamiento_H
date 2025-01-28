@@ -90,7 +90,7 @@ $opcionesMenu = $menuOpciones[$rol] ?? $menuOpciones['default'];
 <body>
     <div class="header">
         <div class="logo">
-            <img src="../img/ZIHUA_c.png" alt="Logo">
+            <img src="../img/SIPSEPP.png" alt="Logo">
         </div>
         <div class="user-options">
 <!--            <a href="../sesiones_conexiones/editar_perfil.php" class="edit-profile-icon">
