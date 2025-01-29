@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-01-2025 a las 21:52:24
+-- Tiempo de generación: 29-01-2025 a las 15:35:39
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -734,7 +734,9 @@ INSERT INTO `listaactividades` (`nombre_area`, `claveProgramaP`, `nombrePrograma
 ('IMM', 'F009', 'Gestión Eficiente de los Recursos Humanos, Materiales y Tecnológicos', 'Coordinación y gestión del Sistema Municipal para prevenir, atender, sancionar y erradicar la violencia contra las mujeres', 686, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('UEV', 'F009', 'Gestión Eficiente de los Recursos Humanos, Materiales y Tecnológicos', 'Control y administración de recursos humanos', 687, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('IMM', 'F009', 'Gestión Eficiente de los Recursos Humanos, Materiales y Tecnológicos', 'Control y administración de recursos humanos', 688, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('AP', 'Z001', 'Ambiente de Prueba de SIPSEPP', 'Demostración de la Plataforma', 689, '1. Desarrollo Humano y Cohesión social', 'Demostración de Prueba', 'Porcentaje de la población en carencia social alimentaria beneficada con la entrega de apoyos alimentarios.  (Discapacitados y adultos mayores)', 'trimestral', 'Uso corrrecto', 250, 100, 50, 50, 50, 'Medios de comunicación');
+('AP', 'Z001', 'Ambiente de Prueba de SIPSEPP', 'Demostración de la Plataforma', 689, '1. Desarrollo Humano y Cohesión social', 'Demostración de Prueba', 'Porcentaje de la población en carencia social alimentaria beneficada con la entrega de apoyos alimentarios.  (Discapacitados y adultos mayores)', 'trimestral', 'Uso corrrecto', 250, 100, 50, 50, 50, 'Medios de comunicación'),
+('AP', 'Z001', 'Ambiente de Prueba de SIPSEPP', 'Segunda Demostración de la Plataforma', 690, '1. Desarrollo Humano y Cohesión social', 'Demostración de Prueba', 'Ejemplo', 'Trimestral', 'Uso correcto', 500, 200, 100, 100, 100, 'Cursos, Talleres'),
+('AP', 'Z001', 'Ambiente de Prueba de SIPSEPP', 'Tercera Actividad de Demostración', 691, '1. Desarrollo Humano y Cohesión social', 'Tercera Demostración  de Prueba', 'Porcentaje de la población en carencia social alimentaria beneficada con la entrega de apoyos alimentarios.  (Discapacitados y adultos mayores)', 'Trimestral', 'Uso corrrecto de la Plataforma', 1000, 500, 300, 100, 100, 'Talleres');
 
 -- --------------------------------------------------------
 
@@ -1056,7 +1058,7 @@ INSERT INTO `usuarios` (`id`, `usr`, `clave`, `correo`, `rol`, `dependenciaArea`
 (51, 'DPVDir', '$2y$10$IQnuWH0VBxmPA.3sv2PIn.fH4zbO39LlJ9RodSkDCmYedygurwgWy', NULL, 'usuario', 'Dirección de Parque Vihicular', 'DPV', 1),
 (52, 'DSGDir', '$2y$10$8xGxcYBY6Y3LUq.K..x04Ob1xpJ5QvCC7iwqsls.DEheZRmIJtR.y', NULL, 'usuario', 'Dirección de Servicios Generales', 'DSG', 1),
 (53, 'DCBDir', '$2y$10$QdPxQFqGYO16F80P/9axOO2Q5PfHwZ68HCXzD1g7V8d1bHec45UjW', NULL, 'usuario', 'Dirección de Control de Bienes y Muebles', 'DCB', 1),
-(54, 'DPLDir', '$2y$10$WvkF1rcMqsU7mV.bSjN30OmfU6Fj4ZSUhtluPURIfNjoF6dWokdkK', 'planeacion@zihuatanejodeazueta.gob.mx', 'admin', NULL, NULL, 1),
+(54, 'DPLDir', '$2y$10$WvkF1rcMqsU7mV.bSjN30OmfU6Fj4ZSUhtluPURIfNjoF6dWokdkK', 'planeacion@zihuatanejodeazueta.gob.mx', 'admin', 'Dirección de Planeación', 'DPL', 1),
 (55, 'UMRUni', '$2y$10$67A.X/pQxHhNWH/OO6J3PuauGj6tGoILEDYzVCTeS7pTHhYApZF16', 'mejoraregulatoria@zihuatanejodeazueta.gob.mx', 'admin', 'Unidad de Mejora Regulatoria', 'UMR', 1),
 (56, 'ITEIns', '$2y$10$jCPk7ISfKtRNACri2RGpb.V3c8LeB0w/e3q0omzLkIxwi55gdh0n6', 'evaluacionaldesempeno@zihuatanejodeazueta.gob.mx', 'admin', 'Instancia Técnica de Evaluación al Desempeño', 'ITE', 1),
 (57, 'COMCom', '$2y$10$yC6ER1.hPSiZjgRr1K2tN.im6dHeCbxb8M6Fct2TUwgjYSRz8kHCq', NULL, 'usuario', 'Comuna', 'COM', 1),
@@ -1076,7 +1078,7 @@ INSERT INTO `usuarios` (`id`, `usr`, `clave`, `correo`, `rol`, `dependenciaArea`
 (71, 'RDRReg', '$2y$10$q6c25l28qyivROaN.AZnwuY4fnSvMs.ofTMGdJfWyEVC/QgMNNBOi', NULL, 'usuario', 'Regiduría de Desarrollo Rural', 'RDR', 1),
 (72, 'RSPReg', '$2y$10$xMlXq1e6pNeVnhQdo8V4teXD9e2gYimlv8x69rlaNm4lIOvwO/esu', NULL, 'usuario', 'Regiduría de Servicios Públicos', 'RSP', 1),
 (73, 'Sandez01', '$2y$10$AdRhbqJRWnB0vDgwtx7fcOeVz0znE.72ZrabIJb5gglnavOgD.Yj.', 'santiagohc410@gmail.com', 'admin', 'Unidad de Mejora Regulatoria', 'UMR', 0),
-(78, 'UsrP', '$2y$10$faI0VknmolhJlh0DaRyBqODabWoJte9qTRK.cAbXtCdhHd/qxIcQS', 'test@zihuatanejodeazueta.gob.mx', '', 'SIPSEPP', 'AP', 1);
+(78, 'UsrP', '$2y$10$v8z5tIyFlRK0v0Rt.StHIOjs6XZBeJS3iYNTf4dFUWXX3WH79ILgS', 'test@zihuatanejodeazueta.gob.mx', 'admin', 'SIPSEPP', 'AP', 1);
 
 --
 -- Índices para tablas volcadas
@@ -1141,13 +1143,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `avances_mensuales`
 --
 ALTER TABLE `avances_mensuales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `listaactividades`
 --
 ALTER TABLE `listaactividades`
-  MODIFY `id_actividades` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=690;
+  MODIFY `id_actividades` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=692;
 
 --
 -- AUTO_INCREMENT de la tabla `programas`
