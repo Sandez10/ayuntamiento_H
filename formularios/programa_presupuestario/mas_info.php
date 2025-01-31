@@ -126,7 +126,8 @@ $result = $stmtProgramas->get_result();
                                 echo "<tr>";
                                 if ($rol !== 'admin'){
                                     if (
-                                        ($actividad['nombreActividad'] === "Control y administración de recursos humanos" || 
+                                        ($actividad['nombreActividad'] === "Control y administración de recursos humanos " ||
+                                         $actividad['nombreActividad'] === "Control y administración de recursos humanos" ||
                                         $actividad['nombreActividad'] === "Control y administracción de recursos humanos") 
                                        // && $rol !== 'admin' // Solo la oculta si el usuario no es admin
                                     ) {
