@@ -74,9 +74,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if (!$mesSeleccionado || !$avanceMes || !$beneficiarios) {
         echo "<script>alert('Faltan datos para registrar el avance.');</script>";
-    } elseif ($mesSeleccionado !== $mesActual) {
+    }
+
+        elseif ($mesSeleccionado !== $mesActual){
         echo "<script>alert('Solo se puede registrar avance para el mes actual.');</script>";
-    } else {
+    }
+    
+     else {
         // Insertar el avance en la tabla avances_mensuales
         $queryInsertAvance = "INSERT INTO avances_mensuales (clave_area, mes, avance, avanceBeneficiario, avanceEvidencia, nombreEvidencia, id_actividades) 
                             VALUES (?,?, ?, ?, ?, ?,?)";
@@ -219,7 +223,8 @@ if (isset($_GET['id_actividad'])) {
                         foreach ($resultActividades as $actividad) {
                             if ($rol !== 'admin'){
                                 if (
-                                    ($actividad['nombreActividad'] === "Control y administración de recursos humanos" || 
+                                    ($actividad['nombreActividad'] === "Control y administración de recursos humanos " ||
+                                    $actividad['nombreActividad'] === "Control y administracción de recursos humanos" || 
                                     $actividad['nombreActividad'] === "Control y administracción de recursos humanos") 
                                    // && $rol !== 'admin' // Solo la oculta si el usuario no es admin
                                 ) {
@@ -251,30 +256,30 @@ if (isset($_GET['id_actividad'])) {
                     <label for="mes">Mes:</label>
                     <select name="mes" id="mes" required>
                     <?php
-    $mesAnterior = ($mesActual == 1) ? 12 : $mesActual - 1; // Si es enero, el mes anterior es diciembre
+                    $mesAnterior = ($mesActual == 1) ? 12 : $mesActual - 1; // Si es enero, el mes anterior es diciembre
 
-    // Verifica si el usuario es admin
-    $esAdmin = isset($_SESSION['usuario']) && $rol === 'admin';
-    for ($mes = 1; $mes <= 12; $mes++) {
-        $nombreMes = strftime('%B', mktime(0, 0, 0, $mes, 10));
+                    // Verifica si el usuario es admin
+                        $esAdmin = isset($_SESSION['usuario']) && $rol === 'admin';
+                    for ($mes = 1; $mes <= 12; $mes++) {
+                        $nombreMes = strftime('%B', mktime(0, 0, 0, $mes, 10));
 
-        // Para usuarios no admin: Solo pueden seleccionar el mes anterior o el mes actual (si aún están dentro del límite del día 6)
-        $habilitadoParaUsuario = ($mes === $mesAnterior || ($mes === $mesActual && $diaActual <= 6));
+                        // Para usuarios no admin: Solo pueden seleccionar el mes anterior o el mes actual (si aún están dentro del límite del día 6)
+                        $habilitadoParaUsuario = ($mes === $mesAnterior || ($mes === $mesActual && $diaActual <= 6));
 
-        // Si no es admin y el mes no está permitido, se deshabilita
-        $disabled = (!$esAdmin && !$habilitadoParaUsuario) ? 'disabled' : '';
-        $selected = ($mes == $mesActual) ? 'selected' : '';
+                        // Si no es admin y el mes no está permitido, se deshabilita
+                        $disabled = (!$esAdmin && !$habilitadoParaUsuario) ? 'disabled' : '';
+                        $selected = ($mes == $mesActual) ? 'selected' : '';
 
-        echo "<option value='$mes' $selected $disabled>$nombreMes</option>";
-    }
-?>
+                        echo "<option value='$mes' $selected $disabled>$nombreMes</option>";
+                    }
+                ?>
                     </select>
 
                     <label for="avance">Avance:</label>
-                    <input type="number" name="avance" id="avance" min="1" placeholder="Ingresa el avance">
+                    <input type="number" name="avance" id="avance" min="0" placeholder="Ingresa el avance">
 
                     <label for="beneficiarios">Beneficiarios:</label>
-                    <input type="number" name="beneficiarios" id="beneficiarios" min="1" required placeholder="Ingresa la cantidad de los beneficiarios">
+                    <input type="number" name="beneficiarios" id="beneficiarios" min="0" required placeholder="Ingresa la cantidad de los beneficiarios">
 
                     <label for="evidencia">Evidencia:</label>
                     <input type="file" name="evidencia" id="evidencia" required accept="application/pdf">
