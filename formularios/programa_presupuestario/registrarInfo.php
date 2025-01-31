@@ -11,7 +11,7 @@ include '../../database/conexion.php';
 
 
 // Configurar el idioma para que los meses se muestren en español
-setlocale(LC_TIME, 'es_ES.UTF-8'); // Puedes probar 'Spanish' si no funciona
+setlocale(LC_TIME, 'es_ES.UTF-8'); 
 $Meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
 
