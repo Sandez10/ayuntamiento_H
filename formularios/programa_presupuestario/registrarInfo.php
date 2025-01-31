@@ -7,14 +7,17 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
-$mesActual = date('n'); // Obtiene el mes actual (1-12)
-$diaActual = date('j'); // Obtiene el día actual (1-31)
-
 include '../../database/conexion.php';
 
+
 // Configurar el idioma para que los meses se muestren en español
-setlocale(LC_TIME, 'Spanish');
-//setlocale(LC_TIME, 'es_MX.UTF-8');
+setlocale(LC_TIME, 'es_ES.UTF-8'); // Puedes probar 'Spanish' si no funciona
+$Meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
+
+// Obtener la fecha actual
+$mesActual = date('n'); // Número del mes actual (1-12)
+$diaActual = date('j'); // Día del mes actual
 
 // Obtener clave_area y es_admin del usuario activo
 $queryUsuario = "SELECT clave_area, rol FROM usuarios WHERE usr = ?";
@@ -259,20 +262,21 @@ if (isset($_GET['id_actividad'])) {
                     $mesAnterior = ($mesActual == 1) ? 12 : $mesActual - 1; // Si es enero, el mes anterior es diciembre
 
                     // Verifica si el usuario es admin
-                        $esAdmin = isset($_SESSION['usuario']) && $rol === 'admin';
-                    for ($mes = 1; $mes <= 12; $mes++) {
-                        $nombreMes = strftime('%B', mktime(0, 0, 0, $mes, 10));
+                    $esAdmin = isset($_SESSION['usuario']) && $rol === 'admin';
 
-                        // Para usuarios no admin: Solo pueden seleccionar el mes anterior o el mes actual (si aún están dentro del límite del día 6)
-                        $habilitadoParaUsuario = ($mes === $mesAnterior || ($mes === $mesActual && $diaActual <= 6));
-
-                        // Si no es admin y el mes no está permitido, se deshabilita
-                        $disabled = (!$esAdmin && !$habilitadoParaUsuario) ? 'disabled' : '';
-                        $selected = ($mes == $mesActual) ? 'selected' : '';
-
-                        echo "<option value='$mes' $selected $disabled>$nombreMes</option>";
-                    }
-                ?>
+                        for ($mes = 1; $mes <= 12; $mes++) {
+                            $nombreMes = $Meses[$mes - 1]; // Tomar el nombre desde el array
+                        
+                            // Para usuarios no admin: Solo pueden seleccionar el mes anterior o el mes actual (si aún están dentro del límite del día 6)
+                            $habilitadoParaUsuario = ($mes === $mesAnterior || ($mes === $mesActual && $diaActual <= 6));
+                        
+                            // Si no es admin y el mes no está permitido, se deshabilita
+                            $disabled = (!$esAdmin && !$habilitadoParaUsuario) ? 'disabled' : '';
+                            $selected = ($mes == $mesActual) ? 'selected' : '';
+                        
+                            echo "<option value='$mes' $selected $disabled>$nombreMes</option>";
+                        }                
+                        ?>
                     </select>
 
                     <label for="avance">Avance:</label>
