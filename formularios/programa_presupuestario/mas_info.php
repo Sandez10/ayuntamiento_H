@@ -121,10 +121,20 @@ $result = $stmtProgramas->get_result();
                         $resultActividades = $stmtActividades->get_result();
 
                         if ($resultActividades->num_rows > 0) {
+
                             while ($actividad = $resultActividades->fetch_assoc()) {
                                 echo "<tr>";
+                                if ($rol !== 'admin'){
+                                    if (
+                                        ($actividad['nombreActividad'] === "Control y administración de recursos humanos" || 
+                                        $actividad['nombreActividad'] === "Control y administracción de recursos humanos") 
+                                       // && $rol !== 'admin' // Solo la oculta si el usuario no es admin
+                                    ) {
+                                        continue; // Omitir esta actividad para usuarios que no sean admin
+                                    }
+                                }
+                                                                
                                 echo "<td>" . htmlspecialchars($actividad['nombreActividad']) . "</td>";
-
                                 $queryAvances = "SELECT mes, avance, avanceBeneficiario, avanceEvidencia 
                                     FROM avances_mensuales 
                                     WHERE clave_area = ? AND id_actividades = ?";

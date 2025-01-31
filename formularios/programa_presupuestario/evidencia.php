@@ -87,44 +87,52 @@ $conn->close();
         </header>
         <h6>Actividad: <?php echo htmlspecialchars($nombreActividad); ?></h6>
 
-        <table class="table table-striped">
-            <thead>
+<!-- Mostrar los datos en una tabla -->
+<table>
+    <thead>
+        <tr>
+            <th>Clave Área</th>
+            <th>Nombre de la Actividad</th>
+            <th>Mes</th>
+            <th>Avance</th>
+            <th>Beneficiarios</th>
+            <th>Evidencia</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (count($unidades) > 0): ?>
+            <?php foreach ($unidades as $unidad): ?>
                 <tr>
-                    <th>Enero</th>
-                    <th>Febrero</th>
-                    <th>Marzo</th>
-                    <th>Abril</th>
-                    <th>Mayo</th>
-                    <th>Junio</th>
-                    <th>Julio</th>
-                    <th>Agosto</th>
-                    <th>Septiembre</th>
-                    <th>Octubre</th>
-                    <th>Noviembre</th>
-                    <th>Diciembre</th>
+                    <td><?php echo htmlspecialchars($unidad['clave_area']); ?></td>
+                    <td><?php echo htmlspecialchars($unidad['nombreActividad']); ?></td>
+                    <td><?php echo htmlspecialchars($unidad['mes']); ?></td>
+                    <td><?php echo htmlspecialchars($unidad['avance']); ?></td>
+                    <td><?php echo htmlspecialchars($unidad['avanceBeneficiario']); ?></td>
+                    <td>
+                        <?php if (isset($unidad['nombreEvidencia']) && pathinfo($unidad['nombreEvidencia'], PATHINFO_EXTENSION) == 'pdf'): ?>
+                            <!-- Enlace para ver el PDF -->
+                            <a href="../../uploads/?php echo htmlspecialchars($unidad['nombreEvidencia']); ?>" class="btn btn-info btn-sm" target="_blank" title="Ver archivo: <?php echo htmlspecialchars($unidad['nombreEvidencia']); ?>">
+                                <i class="fas fa-file-pdf fa-2x"></i>
+                            </a>
+                            <!-- Enlace para descargar el PDF -->
+                            <a href="../../uploads/<?php echo htmlspecialchars($unidad['nombreEvidencia']); ?>" class="btn btn-primary btn-sm" download title="Descargar archivo: <?php echo htmlspecialchars($unidad['nombreEvidencia']); ?>">
+                                <i class="fas fa-cloud-download-alt fa-2x"></i>
+                            </a>
+                        <?php else: ?>
+                            <?php echo htmlspecialchars($unidad['nombreEvidencia']); ?>
+                        <?php endif; ?>
+                    </td>
+                    <td><a href="#">Ver Detalles</a></td>
                 </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <?php for ($mes = 1; $mes <= 12; $mes++): ?>
-                        <td>
-                            <?php if (!empty($evidenciasPorMes[$mes])): ?>
-                                <?php foreach ($evidenciasPorMes[$mes] as $evidencia): ?>
-                                    <a href="../../uploads/<?php echo htmlspecialchars($evidencia['nombreEvidencia']); ?>" class="btn btn-info btn-sm" target="_blank" title="<?php echo htmlspecialchars($evidencia['nombreEvidencia']); ?>">
-                                    <i class="fas fa-file-pdf fa-2x"></i></a>
-                                    <a href="../../uploads/<?php echo htmlspecialchars($evidencia['nombreEvidencia']); ?>" class="btn btn-primary btn-sm" download title="<?php echo htmlspecialchars($evidencia['nombreEvidencia']); ?>">
-                                    <i class="fas fa-cloud-download-alt fa-2x"></i></a>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="7">No se encontraron resultados.</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
 
-
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <p>Sin evidencias</p>
-                            <?php endif; ?>
-                        </td>
-                    <?php endfor; ?>
-                </tr>
-            </tbody>
-        </table>
 
         <button type="button" class="btn btn-secondary" onclick="location.href='javascript:history.back();'">Regresar</button>
     </div>

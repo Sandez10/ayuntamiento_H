@@ -102,10 +102,27 @@ if ($resultado->num_rows > 0) {
         echo "<td>" . htmlspecialchars($row['claveProgramaP'], ENT_QUOTES, 'UTF-8') . "</td>";
         echo "<td>" . htmlspecialchars($row['nombreProgramaP'], ENT_QUOTES, 'UTF-8') . "</td>";
         echo "<td>" . htmlspecialchars($row['nombre_area'], ENT_QUOTES, 'UTF-8') . "</td>";
+        if ($rol == 'admin') {
         echo "<td>
-            <button class='view-button' onclick='location.href=\"programa_presupuestario/mas_info.php?claveProgramaP=" . urlencode($row['claveProgramaP']) . "&clave_area=" . urlencode($row['clave_area']) . "&nombre_area=" . urldecode($row['nombre_area']) . "\";'>Mostrar</button>
+            <button class='view-button' onclick='location.href=\"programa_presupuestario/mas_info.php?claveProgramaP=" . urlencode($row['claveProgramaP']) . "&clave_area=" . urlencode($row['clave_area']) . "&nombre_area=" . urlencode($row['nombre_area']) . "\";'>Mostrar</button>
+            <button class='view-button' onclick='location.href=\"programa_presupuestario/registrarInfo.php?claveProgramaP=" . urlencode($row['claveProgramaP']) . "&clave_area=" . urlencode($row['clave_area']) . "\";'>Registrar Avance</button>
+                
+            <form action='programa_presupuestario/eliminar_programas.php' method='POST'>
+                <input type='hidden' name='claveProgramaP' value='" . htmlspecialchars($row['claveProgramaP'], ENT_QUOTES, 'UTF-8') . "'>
+                <input type='hidden' name='nombre_area' value='" . htmlspecialchars($row['nombre_area'], ENT_QUOTES, 'UTF-8') ."'>
+                <input type='hidden' name='clave_area' value='" . htmlspecialchars($row['clave_area'], ENT_QUOTES, 'UTF-8') ."'>
+
+                <button type='submit' class='btn btn-danger'>Eliminar</button>
+            </form>
+            </td>";
+        }
+        else{echo "<td>
+            <button class='view-button' onclick='location.href=\"programa_presupuestario/mas_info.php?claveProgramaP=" . urlencode($row['claveProgramaP']) . "&clave_area=" . urlencode($row['clave_area']) . "&nombre_area=" . urlencode($row['nombre_area']) . "\";'>Mostrar</button>
             <button class='view-button' onclick='location.href=\"programa_presupuestario/registrarInfo.php?claveProgramaP=" . urlencode($row['claveProgramaP']) . "&clave_area=" . urlencode($row['clave_area']) . "\";'>Registrar Avance</button>
         </td>";
+            }
+
+        
         echo "</tr>";
     }
 } else {

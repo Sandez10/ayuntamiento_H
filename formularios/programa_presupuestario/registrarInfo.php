@@ -7,29 +7,33 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
+$mesActual = date('n'); // Obtiene el mes actual (1-12)
+$diaActual = date('j'); // Obtiene el día actual (1-31)
+
 include '../../database/conexion.php';
 
 // Configurar el idioma para que los meses se muestren en español
 setlocale(LC_TIME, 'Spanish');
+//setlocale(LC_TIME, 'es_MX.UTF-8');
 
-// Obtener clave_area del usuario activo
-$queryUsuario = "SELECT clave_area FROM usuarios WHERE usr = ?";
+// Obtener clave_area y es_admin del usuario activo
+$queryUsuario = "SELECT clave_area, rol FROM usuarios WHERE usr = ?";
 $stmtUsuario = $conn->prepare($queryUsuario);
 $stmtUsuario->bind_param("s", $_SESSION['usuario']);
 $stmtUsuario->execute();
-$stmtUsuario->bind_result($clave_area);
+$stmtUsuario->bind_result($clave_area, $rol);
 $stmtUsuario->fetch();
 $stmtUsuario->close();
+
 
 // Obtener los parámetros claveProgramaP y clave_area
 $claveProgramaP = isset($_GET['claveProgramaP']) ? $_GET['claveProgramaP'] : null;
 $clave_area = isset($_GET['clave_area']) ? $_GET['clave_area'] : $clave_area;
 
-// Obtener el mes actual
-$mesActual = date('n'); // Mes actual en formato numérico sin ceros iniciales (1-12)
-
 // Procesar formulario si se envían avances
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verificar si el usuario es administrador
+
     // Recuperar el valor de id_actividades
     $actividad = isset($_POST['id_actividades']) ? intval($_POST['id_actividades']) : null;
     $mesSeleccionado = isset($_POST['mes']) ? intval($_POST['mes']) : $mesActual;
@@ -86,6 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
 // Obtener las actividades
 $queryActividades = "SELECT id_actividades, nombreActividad FROM listaactividades WHERE claveProgramaP = ? AND nombre_area = ?";
 $stmtActividades = $conn->prepare($queryActividades);
@@ -137,7 +142,6 @@ if (isset($_GET['id_actividad'])) {
     <link rel="stylesheet" href="../../css/registrarInfo.css">
 </head>
 <body>
-
     <div class="content">
         <header>
             <button type="button" class="btn-salir" onclick="location.href='../../sesiones_conexiones/destruir_sesion.php';">Cerrar sesión</button>
@@ -148,72 +152,81 @@ if (isset($_GET['id_actividad'])) {
                 <input type="hidden" name="claveProgramaP" value="<?php echo htmlspecialchars($claveProgramaP); ?>">
                 <input type="hidden" name="clave_area" value="<?php echo htmlspecialchars($clave_area); ?>">
                 <div class="container">
-    <h3>Datos Generales</h3>
-    <button id="toggleBtn" type="button">Mostrar Datos Generales</button>
-    <div id="datosGenerales" style="display: none;">
-        <?php if ($datosGenerales): ?>
-
-            <div class="row">
-                <div class="label">Nombre de la Actividad:</div>
-                <div class="input">
-                    <textarea id="nombreActividad" rows="3" disabled><?= htmlspecialchars($datosGenerales['nombreActividad']) ?></textarea>
-                </div>
-            </div>
-            <div class="row">
-                <div class="label">Eje del PMD:</div>
-                <div class="input">
-                    <textarea id="EjePMD" rows="3" disabled><?= htmlspecialchars($datosGenerales['EjePMD']) ?></textarea>
-                </div>
-            </div>
-            <div class="row">
-                <div class="label">Objetivo del PMD:</div>
-                <div class="input">
-                    <textarea id="ObjetivoPMD" rows="3" disabled><?= htmlspecialchars($datosGenerales['ObjetivoPMD']) ?></textarea>
-                </div>
-            </div>
-            <div class="row">
-                <div class="label">Indicador:</div>
-                <div class="input">
-                    <textarea id="Indicador" rows="3" disabled><?= htmlspecialchars($datosGenerales['Indicador']) ?></textarea>
-                </div>
-            </div>
-            <div class="row-group">
-                <div class="column">
-                    <div class="label">Frecuencia de Medición:</div>
-                    <div class="input">
-                        <textarea id="unidadMedida" rows="3" disabled><?= htmlspecialchars($datosGenerales['unidadMedida'])//$datosGenerales['frecuenciaMedición']) ?></textarea>
+                    <h3>Datos Generales</h3>
+                    <button id="toggleBtn" type="button">Mostrar Datos Generales</button>
+                    <div id="datosGenerales" style="display: none;">
+                        <?php if ($datosGenerales): ?>
+                            <div class="row">
+                                <div class="label">Nombre de la Actividad:</div>
+                                <div class="input">
+                                    <textarea id="nombreActividad" rows="3" disabled><?= htmlspecialchars($datosGenerales['nombreActividad']) ?></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="label">Eje del PMD:</div>
+                                <div class="input">
+                                    <textarea id="EjePMD" rows="3" disabled><?= htmlspecialchars($datosGenerales['EjePMD']) ?></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="label">Objetivo del PMD:</div>
+                                <div class="input">
+                                    <textarea id="ObjetivoPMD" rows="3" disabled><?= htmlspecialchars($datosGenerales['ObjetivoPMD']) ?></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="label">Indicador:</div>
+                                <div class="input">
+                                    <textarea id="Indicador" rows="3" disabled><?= htmlspecialchars($datosGenerales['Indicador']) ?></textarea>
+                                </div>
+                            </div>
+                            <div class="row-group">
+                                <div class="column">
+                                    <div class="label">Frecuencia de Medición:</div>
+                                    <div class="input">
+                                        <textarea id="unidadMedida" rows="3" disabled><?= htmlspecialchars($datosGenerales['unidadMedida']) ?></textarea>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="label">Unidad de Medida:</div>
+                                    <div class="input">
+                                        <textarea id="frecuenciaMedición" rows="3" disabled><?= htmlspecialchars($datosGenerales['frecuenciaMedición']) ?></textarea>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="label">Meta Anual:</div>
+                                    <div class="input">
+                                        <textarea id="metaAnual" rows="3" disabled><?= htmlspecialchars($datosGenerales['metaAnual']) ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="label">Medio de Verificación:</div>
+                                <div class="input">
+                                    <textarea id="MediosVerifi" rows="3" disabled><?= htmlspecialchars($datosGenerales['MediosVerifi']) ?></textarea>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <p>No se encontraron datos generales para mostrar.</p>
+                        <?php endif; ?>
                     </div>
                 </div>
-                <div class="column">
-                    <div class="label">Unidad de Medida:</div>
-                    <div class="input">
-                        <textarea id="frecuenciaMedición" rows="3" disabled><?= htmlspecialchars($datosGenerales['frecuenciaMedición'])//$datosGenerales['unidadMedida']) ?></textarea>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="label">Meta Anual:</div>
-                    <div class="input">
-                        <textarea id="metaAnual" rows="3" disabled><?= htmlspecialchars($datosGenerales['metaAnual']) ?></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="label">Medio de Verificación:</div>
-                <div class="input">
-                    <textarea id="MediosVerifi" rows="3" disabled><?= htmlspecialchars($datosGenerales['MediosVerifi']) ?></textarea>
-                </div>
-            </div>
-        <?php else: ?>
-            <p>No se encontraron datos generales para mostrar.</p>
-        <?php endif; ?>
-    </div>
-</div>
                 <h3>Registrar Avance Mensual</h3>
                 <label for="actividad">Actividad:</label>
                 <select name="id_actividades" id="actividad" required>
                     <?php
                     if ($resultActividades->num_rows > 0) {
                         foreach ($resultActividades as $actividad) {
+                            if ($rol !== 'admin'){
+                                if (
+                                    ($actividad['nombreActividad'] === "Control y administración de recursos humanos" || 
+                                    $actividad['nombreActividad'] === "Control y administracción de recursos humanos") 
+                                   // && $rol !== 'admin' // Solo la oculta si el usuario no es admin
+                                ) {
+                                    continue; // Omitir esta actividad para usuarios que no sean admin
+                                }
+                            }
+
                             echo "<option value='" . htmlspecialchars($actividad['id_actividades']) . "'>" . htmlspecialchars($actividad['nombreActividad']) . "</option>";
                         }
                     } else {
@@ -222,41 +235,52 @@ if (isset($_GET['id_actividad'])) {
                     ?>
                 </select>
                 <div class="row-group2">
-                <div class="meta-container">Meta Trimestrales</div>
-                <div class="row-group">
-                    <div class="label">Trimestre 1</div>
-                    <div class="label">Trimestre 2</div>
-                    <div class="label">Trimestre 3</div>
-                    <div class="label">Trimestre 4</div>
-                </div>
-                <div class="row-group">
-                    <input type="text" id="trim1" disabled value="<?php echo htmlspecialchars($datosGenerales['metaTrim1']); ?>">
-                    <input type="text" id="trim2" disabled value="<?php echo htmlspecialchars($datosGenerales['metaTrim2']); ?>">
-                    <input type="text" id="trim3" disabled value="<?php echo htmlspecialchars($datosGenerales['metaTrim3']); ?>">
-                    <input type="text" id="trim4" disabled value="<?php echo htmlspecialchars($datosGenerales['metaTrim4']); ?>">
-                </div>
-                <label for="mes">Mes:</label>
-                <select name="mes" id="mes" required>
+                    <div class="meta-container">Meta Trimestrales</div>
+                    <div class="row-group">
+                        <div class="label">Trimestre 1</div>
+                        <div class="label">Trimestre 2</div>
+                        <div class="label">Trimestre 3</div>
+                        <div class="label">Trimestre 4</div>
+                    </div>
+                    <div class="row-group">
+                        <input type="text" id="trim1" disabled value="<?php echo htmlspecialchars($datosGenerales['metaTrim1']); ?>">
+                        <input type="text" id="trim2" disabled value="<?php echo htmlspecialchars($datosGenerales['metaTrim2']); ?>">
+                        <input type="text" id="trim3" disabled value="<?php echo htmlspecialchars($datosGenerales['metaTrim3']); ?>">
+                        <input type="text" id="trim4" disabled value="<?php echo htmlspecialchars($datosGenerales['metaTrim4']); ?>">
+                    </div>
+                    <label for="mes">Mes:</label>
+                    <select name="mes" id="mes" required>
                     <?php
-                    for ($mes = 1; $mes <= 12; $mes++) {
-                        $nombreMes = strftime('%B', mktime(0, 0, 0, $mes, 10));
-                        $selected = ($mes == $mesActual) ? 'selected' : '';
-                        $disabled = ($mes !== $mesActual) ? 'disabled' : '';
-                        echo "<option value='$mes' $selected $disabled>$nombreMes</option>";
-                    }
-                    ?>
-                </select>
+    $mesAnterior = ($mesActual == 1) ? 12 : $mesActual - 1; // Si es enero, el mes anterior es diciembre
 
-                <label for="avance">Avance:</label>
-                <input type="number" name="avance" id="avance" min="1" placeholder="Ingresa el avance">
+    // Verifica si el usuario es admin
+    $esAdmin = isset($_SESSION['usuario']) && $rol === 'admin';
+    for ($mes = 1; $mes <= 12; $mes++) {
+        $nombreMes = strftime('%B', mktime(0, 0, 0, $mes, 10));
 
-                <label for="beneficiarios">Beneficiarios:</label>
-                <input type="number" name="beneficiarios" id="beneficiarios" min="1" required placeholder="Ingresa la cantidad de los beneficiarios">
+        // Para usuarios no admin: Solo pueden seleccionar el mes anterior o el mes actual (si aún están dentro del límite del día 6)
+        $habilitadoParaUsuario = ($mes === $mesAnterior || ($mes === $mesActual && $diaActual <= 6));
 
-                <label for="evidencia">Evidencia:</label>
-                <input type="file" name="evidencia" id="evidencia" required accept="application/pdf">
+        // Si no es admin y el mes no está permitido, se deshabilita
+        $disabled = (!$esAdmin && !$habilitadoParaUsuario) ? 'disabled' : '';
+        $selected = ($mes == $mesActual) ? 'selected' : '';
 
-                <button type="submit" class="btn-submit">Registrar Avance</button>
+        echo "<option value='$mes' $selected $disabled>$nombreMes</option>";
+    }
+?>
+                    </select>
+
+                    <label for="avance">Avance:</label>
+                    <input type="number" name="avance" id="avance" min="1" placeholder="Ingresa el avance">
+
+                    <label for="beneficiarios">Beneficiarios:</label>
+                    <input type="number" name="beneficiarios" id="beneficiarios" min="1" required placeholder="Ingresa la cantidad de los beneficiarios">
+
+                    <label for="evidencia">Evidencia:</label>
+                    <input type="file" name="evidencia" id="evidencia" required accept="application/pdf">
+
+                    <button type="submit" class="btn-submit">Registrar Avance</button>
+                </div>
             </form>
         </main>
 

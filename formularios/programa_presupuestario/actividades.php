@@ -11,12 +11,12 @@ include '../../database/conexion.php';
 
 // Inicializar variables de búsqueda
 $busqueda = isset($_GET['busqueda']) ? '%' . htmlspecialchars($_GET['busqueda'], ENT_QUOTES, 'UTF-8') . '%' : '%';
-$claveProgramaP = isset($_GET['claveProgramaP']) ? $_GET['claveProgramaP'] : null;
+$claveProgramaP = isset($_GET['claveProgramaP'],$_GET['nombreActividad']) ? $_GET['claveProgramaP'] : null;
 
 $programas = [];
 
 // Preparar la consulta de búsqueda con los parámetros
-$query = "SELECT * FROM listapp WHERE nombreProgramaP LIKE ? OR claveProgramaP LIKE ?";
+$query = "SELECT claveProgramaP, nombreProgramaP, nombreActividad FROM listaactividades WHERE nombreProgramaP LIKE ? OR claveProgramaP LIKE ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("ss", $busqueda, $busqueda);
 $stmt->execute();
@@ -167,6 +167,7 @@ $conn->close();
                 <tr>
                     <th>Clave</th>
                     <th>Nombre del Programa Presupuestario</th>
+                    <th>Nombre de la Actividad</th>        
                     <th>Opciones</th>
                 </tr>
             </thead>
@@ -189,16 +190,14 @@ $conn->close();
             <input type="text" name="nombreProgramaP" value="<?php echo htmlspecialchars($programa['nombreProgramaP'], ENT_QUOTES, 'UTF-8'); ?>" class="form-control editable-input" style="display:none;">
         </td>
         <td>
+            <span class="programa-info"><?php echo htmlspecialchars($programa['nombreActividad'], ENT_QUOTES, 'UTF-8'); ?></span>
+            <input type="text" name="claveProgramaP" value="<?php echo htmlspecialchars($programa['nombreActividad'], ENT_QUOTES, 'UTF-8'); ?>" class="form-control editable-input" style="display:none;">
+        </td>
+        <td>
             <input type="hidden" name="clavePrograma" value="<?php echo htmlspecialchars($programa['claveProgramaP'], ENT_QUOTES, 'UTF-8'); ?>">
             <button type="button" class="btn btn-success edit-btn">Editar</button>
             <button type="submit" class="btn btn-success save-btn" style="display:none;">Guardar</button>
             <button type="button" class="btn btn-info" onclick="location.href='../pre_a.php?claveProgramaP=<?php echo htmlspecialchars($programa['claveProgramaP'], ENT_QUOTES, 'UTF-8'); ?>'">Actividades</button>
-            <button type="button" class="btn btn-primary"onclick="if (confirm('¿Estás seguro de asignar este programa?')) { 
-                    location.href='../asignar_prog_area.php?claveProgramaP=<?php echo urlencode($programa['claveProgramaP']); ?>';
-                 }">
-    Asignar
-</button>
-
             <button type="submit" name="eliminar" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este programa?');">Eliminar</button>
         </td>
     </form>
