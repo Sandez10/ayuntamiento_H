@@ -32,7 +32,6 @@ if (empty($nombreProgramaP)) {
 
 // Recuperar las áreas disponibles
 $queryAreas = "SELECT clave_area, nombre_area FROM unidadesresponsables";
-
 $stmtAreas = $conn->prepare($queryAreas);
 $stmtAreas->execute();
 $resultadoAreas = $stmtAreas->get_result();
@@ -59,7 +58,7 @@ $stmtActividades->close();
 <div class="container mt-5">
     <h1>Asignar Área y Actividades para el Programa: <?php echo htmlspecialchars($nombreProgramaP, ENT_QUOTES, 'UTF-8'); ?></h1>
 
-    <!-- Formulario para seleccionar el área -->
+    <!-- Formulario para seleccionar el área y las actividades -->
     <form method="POST" class="row g-3 mb-4">
         <div class="col-md-6">
             <label for="clave_area" class="form-label">Seleccionar Área</label>
@@ -72,15 +71,30 @@ $stmtActividades->close();
                 <?php endwhile; ?>
             </select>
         </div>
-        <div class="col-md-6">
-            <button type="submit" class="btn btn-primary">Seleccionar Área</button>
+        
+        <!-- Lista de actividades con checkboxes -->
+        <div class="col-12">
+            <h3>Seleccionar Actividades:</h3>
+            <?php foreach ($actividades as $actividad): ?>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="actividades[]" value="<?php echo htmlspecialchars($actividad['id_actividades'], ENT_QUOTES, 'UTF-8'); ?>" id="actividad_<?php echo htmlspecialchars($actividad['id_actividades'], ENT_QUOTES, 'UTF-8'); ?>">
+                    <label class="form-check-label" for="actividad_<?php echo htmlspecialchars($actividad['id_actividades'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <?php echo htmlspecialchars($actividad['nombreActividad'], ENT_QUOTES, 'UTF-8'); ?>
+                    </label>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Asignar Área y Actividades Seleccionadas</button>
         </div>
     </form>
 
     <?php
-    // Validar la selección de área y asignar actividades
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['clave_area'])) {
+    // Validar la selección de área y asignar actividades seleccionadas
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['clave_area']) && isset($_POST['actividades'])) {
         $claveAreaSeleccionada = $_POST['clave_area'];
+        $actividadesSeleccionadas = $_POST['actividades'];
 
         // Obtener el nombre del área
         $queryNombreArea = "SELECT nombre_area FROM unidadesresponsables WHERE clave_area = ?";
@@ -104,83 +118,46 @@ $stmtActividades->close();
             die("Error al asignar el área: " . $stmtInsertarUnidad->error);
         }
 
-        // Insertar actividades si no existen
-        foreach ($actividades as $actividad) {
-            $queryVerificar = "SELECT COUNT(*) FROM listaactividades WHERE nombreActividad = ? AND claveProgramaP = ?";
-            $stmtVerificar = $conn->prepare($queryVerificar);
-            $stmtVerificar->bind_param("ss", $actividad['nombreActividad'], $claveProgramaP);
-            $stmtVerificar->execute();
-            $stmtVerificar->bind_result($existe);
-            $stmtVerificar->fetch();
-            $stmtVerificar->close();
+        // Insertar actividades seleccionadas
+        foreach ($actividadesSeleccionadas as $idActividad) {
+            // Obtener los datos de la actividad seleccionada
+            $queryActividad = "SELECT * FROM listaactividades WHERE id_actividades = ?";
+            $stmtActividad = $conn->prepare($queryActividad);
+            $stmtActividad->bind_param("i", $idActividad);
+            $stmtActividad->execute();
+            $resultadoActividad = $stmtActividad->get_result();
+            $actividad = $resultadoActividad->fetch_assoc();
+            $stmtActividad->close();
 
-                $queryInsertarActividad = "INSERT INTO listaactividades (
-                    nombre_area, claveProgramaP, nombreProgramaP, nombreActividad, 
-                    EjePMD, ObjetivoPMD, Indicador, frecuenciaMedición, unidadMedida, metaAnual, 
-                    metaTrim1, metaTrim2, metaTrim3, metaTrim4, MediosVerifi
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            // Insertar la actividad seleccionada
+            $queryInsertarActividad = "INSERT INTO listaactividades (
+                nombre_area, claveProgramaP, nombreProgramaP, nombreActividad, 
+                EjePMD, ObjetivoPMD, Indicador, frecuenciaMedición, unidadMedida, metaAnual, 
+                metaTrim1, metaTrim2, metaTrim3, metaTrim4, MediosVerifi
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-                $stmtInsertar = $conn->prepare($queryInsertarActividad);
-                $stmtInsertar->bind_param(
-                    "sssssssssiiiiis", 
-                    $claveAreaSeleccionada, $claveProgramaP, $nombreProgramaP, $actividad['nombreActividad'],
-                    $actividad['EjePMD'], $actividad['ObjetivoPMD'], $actividad['Indicador'],
-                    $actividad['frecuenciaMedición'], $actividad['unidadMedida'], $actividad['metaAnual'],
-                    $actividad['metaTrim1'], $actividad['metaTrim2'], $actividad['metaTrim3'], 
-                    $actividad['metaTrim4'], $actividad['MediosVerifi']
-                );
+            $stmtInsertar = $conn->prepare($queryInsertarActividad);
+            $stmtInsertar->bind_param(
+                "sssssssssiiiiis", 
+                $claveAreaSeleccionada, $claveProgramaP, $nombreProgramaP, $actividad['nombreActividad'],
+                $actividad['EjePMD'], $actividad['ObjetivoPMD'], $actividad['Indicador'],
+                $actividad['frecuenciaMedición'], $actividad['unidadMedida'], $actividad['metaAnual'],
+                $actividad['metaTrim1'], $actividad['metaTrim2'], $actividad['metaTrim3'], 
+                $actividad['metaTrim4'], $actividad['MediosVerifi']
+            );
 
-                if (!$stmtInsertar->execute()) {
-                    die("Error al asignar la actividad: " . $stmtInsertar->error);
-                }
+            if (!$stmtInsertar->execute()) {
+                die("Error al asignar la actividad: " . $stmtInsertar->error);
             }
         }
 
         echo "<div class='alert alert-success text-center'>Área y actividades asignadas con éxito.</div>";
-    
+    }
     ?>
+
     <div class="text-center mt-4">
         <a href="../plataforma/dashboard.php" class="btn btn-secondary">Regresar</a>
     </div>
-    <!-- Mostrar las actividades asignadas -->
-    <h3 class="mb-3">Actividades del Programa:</h3>
-    
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Nombre Actividad</th>
-                <th>EjePMD</th>
-                <th>ObjetivoPMD</th>
-                <th>Indicador</th>
-                <th>Frecuencia Medición</th>
-                <th>Unidad Medida</th>
-                <th>Meta Anual</th>
-                <th>Meta Trim 1</th>
-                <th>Meta Trim 2</th>
-                <th>Meta Trim 3</th>
-                <th>Meta Trim 4</th>
-                <th>Medios Verificación</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($actividades as $actividad): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($actividad['nombreActividad'], ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php echo htmlspecialchars($actividad['EjePMD'], ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php echo htmlspecialchars($actividad['ObjetivoPMD'], ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php echo htmlspecialchars($actividad['Indicador'], ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php echo htmlspecialchars($actividad['frecuenciaMedición'], ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php echo htmlspecialchars($actividad['unidadMedida'], ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php echo htmlspecialchars($actividad['metaAnual'], ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php echo htmlspecialchars($actividad['metaTrim1'], ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php echo htmlspecialchars($actividad['metaTrim2'], ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php echo htmlspecialchars($actividad['metaTrim3'], ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php echo htmlspecialchars($actividad['metaTrim4'], ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td><?php echo htmlspecialchars($actividad['MediosVerifi'], ENT_QUOTES, 'UTF-8'); ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
