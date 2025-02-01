@@ -62,7 +62,8 @@ if ($rol == 'admin') {
     $menuOpciones['admin'] = array_merge([
     ["title" => "Administrar Usuarios", "link" => "../sesiones_conexiones/actualizar_usr.php"],
     ["title" => "Editar/Borrar Programas", "link" => "../formularios/programa_presupuestario/editarProg.php"],
-    ["title" => "Ver Programas", "link" => "../formularios/ProgramasPre.php"]]
+    ["title" => "Ver Programas", "link" => "../formularios/ProgramasPre.php"],
+    ["title" => "Avance General", "link" => "../formularios/avances.php"],    ]
      );
 }
 else{
@@ -90,7 +91,7 @@ $opcionesMenu = $menuOpciones[$rol] ?? $menuOpciones['default'];
 <body>
     <div class="header">
         <div class="logo">
-            <img src="../img/SIPSEPP.png" alt="Logo">
+            <img src="../img/ZIHUA_C.png" alt="Logo">
         </div>
         <div class="user-options">
 <!--            <a href="../sesiones_conexiones/editar_perfil.php" class="edit-profile-icon">

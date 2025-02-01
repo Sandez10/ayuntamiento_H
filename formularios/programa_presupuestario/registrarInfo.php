@@ -11,7 +11,7 @@ include '../../database/conexion.php';
 
 
 // Configurar el idioma para que los meses se muestren en español
-setlocale(LC_TIME, 'es_ES.UTF-8'); 
+setlocale(LC_TIME, 'es_ES.UTF-8'); // Puedes probar 'Spanish' si no funciona
 $Meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
 
@@ -34,8 +34,10 @@ $claveProgramaP = isset($_GET['claveProgramaP']) ? $_GET['claveProgramaP'] : nul
 $clave_area = isset($_GET['clave_area']) ? $_GET['clave_area'] : $clave_area;
 
 // Procesar formulario si se envían avances
+// Procesar formulario si se envían avances
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Verificar si el usuario es administrador
+    $esAdmin = ($rol === 'admin');
 
     // Recuperar el valor de id_actividades
     $actividad = isset($_POST['id_actividades']) ? intval($_POST['id_actividades']) : null;
@@ -78,12 +80,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$mesSeleccionado || !$avanceMes || !$beneficiarios) {
         echo "<script>alert('Faltan datos para registrar el avance.');</script>";
     }
-
-        elseif ($mesSeleccionado !== $mesActual){
+    // Solo aplicar la validación del mes actual si el usuario NO es admin
+    elseif (!$esAdmin && $mesSeleccionado !== $mesActual) {
         echo "<script>alert('Solo se puede registrar avance para el mes actual.');</script>";
-    }
-    
-     else {
+    } else {
         // Insertar el avance en la tabla avances_mensuales
         $queryInsertAvance = "INSERT INTO avances_mensuales (clave_area, mes, avance, avanceBeneficiario, avanceEvidencia, nombreEvidencia, id_actividades) 
                             VALUES (?,?, ?, ?, ?, ?,?)";
@@ -224,17 +224,15 @@ if (isset($_GET['id_actividad'])) {
                     <?php
                     if ($resultActividades->num_rows > 0) {
                         foreach ($resultActividades as $actividad) {
-                            if ($rol !== 'admin'){
-                                if (
-                                    ($actividad['nombreActividad'] === "Control y administración de recursos humanos " ||
-                                    $actividad['nombreActividad'] === "Control y administracción de recursos humanos" || 
-                                    $actividad['nombreActividad'] === "Control y administracción de recursos humanos") 
-                                   // && $rol !== 'admin' // Solo la oculta si el usuario no es admin
-                                ) {
+                            if ($rol !== 'admin') {
+                                // Nombre exacto de la actividad que quieres ocultar
+                                $actividadOculta = "Control y administración de recursos humanos";
+
+                                // Comparar el nombre de la actividad actual con el nombre que quieres ocultar
+                                if (trim($actividad['nombreActividad']) === $actividadOculta) {
                                     continue; // Omitir esta actividad para usuarios que no sean admin
                                 }
                             }
-
                             echo "<option value='" . htmlspecialchars($actividad['id_actividades']) . "'>" . htmlspecialchars($actividad['nombreActividad']) . "</option>";
                         }
                     } else {
