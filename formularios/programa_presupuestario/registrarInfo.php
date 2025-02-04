@@ -40,10 +40,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $esAdmin = ($rol === 'admin');
 
     // Recuperar el valor de id_actividades
-    $actividad = isset($_POST['id_actividades']) ? intval($_POST['id_actividades']) : null;
+/*    $actividad = isset($_POST['id_actividades']) ? intval($_POST['id_actividades']) : null;
     $mesSeleccionado = isset($_POST['mes']) ? intval($_POST['mes']) : $mesActual;
     $avanceMes = intval($_POST['avance']);
     $beneficiarios = htmlspecialchars($_POST['beneficiarios']);
+*/
+$actividad = isset($_POST['id_actividades']) ? intval($_POST['id_actividades']) : null;
+    $mesSeleccionado = isset($_POST['mes']) ? intval($_POST['mes']) : $mesActual;
+    $avanceMes = intval($_POST['avance']);
+    $beneficiarios = htmlspecialchars($_POST['beneficiarios']);
+    $mesAnterior = ($mesActual == 1) ? 12 : $mesActual - 1; // Si es enero, el mes anterior es diciembre
 
     // Manejo del archivo PDF
     if (isset($_FILES['evidencia']) && $_FILES['evidencia']['error'] === UPLOAD_ERR_OK) {
@@ -80,10 +86,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$mesSeleccionado || !$avanceMes || !$beneficiarios) {
         echo "<script>alert('Faltan datos para registrar el avance.');</script>";
     }
+
+
+    // Calcular el mes anterior
+
+    // Validar el mes seleccionado para usuarios no admin
+    if (!$esAdmin && !($mesSeleccionado === $mesAnterior || ($mesSeleccionado === $mesActual && $diaActual <= 7))) {
+        echo "<script>alert('Solo se puede registrar avance para el mes anterior o el mes actual.');</script>";
+        exit(); // Detener la ejecución del script
+    }
     // Solo aplicar la validación del mes actual si el usuario NO es admin
-    elseif (!$esAdmin && $mesSeleccionado !== $mesActual) {
+/*    elseif (!$esAdmin && $mesSeleccionado !== $mesActual) {
         echo "<script>alert('Solo se puede registrar avance para el mes actual.');</script>";
-    } else {
+    } */else {
         // Insertar el avance en la tabla avances_mensuales
         $queryInsertAvance = "INSERT INTO avances_mensuales (clave_area, mes, avance, avanceBeneficiario, avanceEvidencia, nombreEvidencia, id_actividades) 
                             VALUES (?,?, ?, ?, ?, ?,?)";
@@ -262,21 +277,20 @@ if (isset($_GET['id_actividad'])) {
                     // Verifica si el usuario es admin
                     $esAdmin = isset($_SESSION['usuario']) && $rol === 'admin';
 
-                        for ($mes = 1; $mes <= 12; $mes++) {
-                            $nombreMes = $Meses[$mes - 1]; // Tomar el nombre desde el array
-                        
-                            // Para usuarios no admin: Solo pueden seleccionar el mes anterior o el mes actual (si aún están dentro del límite del día 6)
-                            $habilitadoParaUsuario = ($mes === $mesAnterior || ($mes === $mesActual && $diaActual <= 6));
-                        
-                            // Si no es admin y el mes no está permitido, se deshabilita
-                            $disabled = (!$esAdmin && !$habilitadoParaUsuario) ? 'disabled' : '';
-                            $selected = ($mes == $mesActual) ? 'selected' : '';
-                        
-                            echo "<option value='$mes' $selected $disabled>$nombreMes</option>";
-                        }                
-                        ?>
-                    </select>
+                    for ($mes = 1; $mes <= 12; $mes++) {
+                        $nombreMes = $Meses[$mes - 1]; // Tomar el nombre desde el array
 
+                        // Para usuarios no admin: Solo pueden seleccionar el mes anterior o el mes actual (si aún están dentro del límite del día 6)
+                        $habilitadoParaUsuario = ($mes === $mesAnterior || ($mes === $mesActual && $diaActual <= 6));
+
+                        // Si no es admin y el mes no está permitido, se deshabilita
+                        $disabled = (!$esAdmin && !$habilitadoParaUsuario) ? 'disabled' : '';
+                        $selected = ($mes == $mesActual) ? 'selected' : '';
+
+                        echo "<option value='$mes' $selected $disabled>$nombreMes</option>";
+                    }
+                    ?>
+                </select>
                     <label for="avance">Avance:</label>
                     <input type="number" name="avance" id="avance" min="0" placeholder="Ingresa el avance">
 
