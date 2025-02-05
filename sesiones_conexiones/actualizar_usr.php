@@ -20,7 +20,6 @@ while ($stmt->fetch()) {
     $usuarios[] = ['id' => $id, 'usr' => $usr];
 }
 
-// Actualizar el usuario
 // Actualizar usuario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $usuario_id = $_POST['usuario_id'];
@@ -29,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $nueva_clave_temporal = $_POST['clave_temporal'];
     $nuevo_rol = $_POST['rol'];
     $nueva_area = $_POST['dependenciaArea'];
+    $claveProgramaP = $_POST['claveProgramaP'];
 
     // Validación de correo
     $patron_correo = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
@@ -88,8 +88,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
     $nuevo_correo = $_POST['correo'];
     $nueva_clave_temporal = $_POST['clave_temporal'];
     $nuevo_rol = $_POST['rol'];
-    $nueva_area = $_POST['dependeciaArea'];
+    $nueva_area = $_POST['dependenciaArea']; //unidadesresponsables -> nombre_area
     $nueva_clave_area = $_POST['clave_area'];
+    $claveProgramaP = $_POST['claveProgramaP'];
+
 
     // Validación de correo
     $patron_correo = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
@@ -98,21 +100,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
     if (!$correo_valido) {
         echo "<p style='color: red;'>Por favor, use un correo válido.</p>";
     } else {
-        // Encriptar contraseña
         $clave_encriptada = password_hash($nueva_clave_temporal, PASSWORD_DEFAULT);
-
+    // Insertar en la tabla usuarios
+        $clave_encriptada = password_hash($nueva_clave_temporal, PASSWORD_DEFAULT);
         $queryCreate = "INSERT INTO usuarios (usr, clave, correo, rol, dependenciaArea, clave_area, password_reset_required) 
                         VALUES (?, ?, ?, ?, ?, ?, 1)";
         $stmtCreate = $conn->prepare($queryCreate);
         $stmtCreate->bind_param("ssssss", $nuevo_usr, $clave_encriptada, $nuevo_correo, $nuevo_rol, $nueva_area, $nueva_clave_area);
-
-        if ($stmtCreate->execute()) {
-            echo "<p style='color: green;'>Usuario creado correctamente.</p>";
-        } else {
-            echo "<p style='color: red;'>Error al crear el usuario: " . $stmtCreate->error . "</p>";
-        }
-
+        $stmtCreate->execute();
         $stmtCreate->close();
+
+        // Insertar en la tabla unidadesresponsables
+        $queryInsertUnidad = "INSERT INTO unidadesresponsables (clave_area, nombre_area, claveProgramaP) VALUES (?, ?, ?)";
+        $stmtInsertUnidad = $conn->prepare($queryInsertUnidad);
+        $stmtInsertUnidad->bind_param("sss", $nueva_clave_area, $nueva_area, $claveProgramaP);
+        $stmtInsertUnidad->execute();
+        $stmtInsertUnidad->close();
+
+        echo "<p style='color: green;'>Usuario y unidad responsable creados correctamente.</p>";
     }
 }
 ?>
@@ -231,12 +236,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
 
         <!-- Área -->
         <label>Área: 
-            <input type="text" name="dependenciaArea" required placeholder="Clave del área">
+            <input type="text" name="dependenciaArea" required placeholder="Área"> <!--UnidadesResponsables -> nombre_area
         </label><br>
 
         <!-- Clave del Área -->
         <label>Clave del Área: 
             <input type="text" name="clave_area" required placeholder="Clave del área">
+        </label><br>
+
+        <!-- Clave del Área -->
+        <label>Clave del Programa: 
+            <input type="text" name="claveProgramaP" required placeholder="Clave del Programa">
         </label><br>
 
         <!-- Botón para enviar -->
