@@ -61,9 +61,10 @@ $menuOpciones = [
 if ($rol == 'admin') {
     $menuOpciones['admin'] = array_merge([
     ["title" => "Administrar Usuarios", "link" => "../sesiones_conexiones/actualizar_usr.php"],
+    ["title" => "Subir Actividades", "link" => "../formularios/subir_csv.html"],
     ["title" => "Editar/Borrar Programas", "link" => "../formularios/programa_presupuestario/editarProg.php"],
     ["title" => "Ver Programas", "link" => "../formularios/ProgramasPre.php"],
-    ["title" => "Avance General", "link" => "../formularios/avances.php"],    ]
+    ["title" => "Avance General", "link" => "../formularios/avances.php"]]
      );
 }
 else{
