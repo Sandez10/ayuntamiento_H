@@ -39,12 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Verificar si el usuario es administrador
     $esAdmin = ($rol === 'admin');
 
-    // Recuperar el valor de id_actividades
-/*    $actividad = isset($_POST['id_actividades']) ? intval($_POST['id_actividades']) : null;
-    $mesSeleccionado = isset($_POST['mes']) ? intval($_POST['mes']) : $mesActual;
-    $avanceMes = intval($_POST['avance']);
-    $beneficiarios = htmlspecialchars($_POST['beneficiarios']);
-*/
 $actividad = isset($_POST['id_actividades']) ? intval($_POST['id_actividades']) : null;
     $mesSeleccionado = isset($_POST['mes']) ? intval($_POST['mes']) : $mesActual;
     $avanceMes = intval($_POST['avance']);
