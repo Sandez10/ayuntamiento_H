@@ -13,14 +13,15 @@ if (!isset($_SESSION['usuario'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Seleccionar Ejercicio Fiscal</title>
     <link rel="stylesheet" href="../css/selecionarEje.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <img src="../img/zihua.png" alt="Logo" class="logo">
-            <h2>Sistema Administrativo y Planeación Ayuntamiento Municipal</h2>
+            <img src="../img/ZIHUA_C.png" alt="Logo" class="logo">
+            <h2>Sistema Integral de Planeación, Seguimiento y Evaluación de Políticas Públicas</h2>
         </div>
         <div class="content">
             <h3>Datos de trabajo</h3>
@@ -29,7 +30,6 @@ if (!isset($_SESSION['usuario'])) {
                 <select name="ejercicio_fiscal" required>
                     <option value="" disabled selected>Selecciona el año</option>
                     <option value="2025">2025</option>
-                    <option value="2024">2024</option>
                 </select>
                 <button type="submit">Trabajar con este ejercicio</button>
             </form>

@@ -30,6 +30,7 @@ body {
 
 .header img {
     height: 50px;
+    object-fit: contain;
 }
 
 /* Sidebar */
@@ -38,7 +39,7 @@ body {
     color: #fff;
     padding: 20px 10px;
     width: 250px;
-    height: calc(100vh - 60px);
+    height: 100vh;
     position: fixed;
     top: 60px;
     left: 0;
@@ -46,6 +47,7 @@ body {
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease-in-out;
+    z-index: 100;
 }
 
 /* Botón para mostrar el sidebar en móviles */
@@ -80,20 +82,50 @@ body {
 }
 
 .sidebar ul li a:hover {
-    background-color: #34495e;
-    color: #17a2b8;
+    background-color: #5a6368;
+    color: #1e88e5;
 }
 
-/* Contenido principal */
+/* Asegurarte de que la tabla principal tenga el espacio adecuado */
 .main-content {
-    margin-left: 250px;
-    margin-top: 60px;
+    margin-left: 250px; /* Para que respete el sidebar */
+    margin-top: 60px;   /* Para que respete el header */
     padding: 20px;
     flex: 1;
     transition: margin-left 0.3s ease-in-out;
+    overflow-x: auto;  /* Para que la tabla pueda desplazarse si es muy ancha */
 }
 
+#programasTable
+ th {
+    background-color: #343a40;
+    color: white;
+    font-weight: bold;
+}
+
+#programasTable {
+    width: 100%; /* Asegura que la tabla ocupe todo el espacio disponible */
+}
+
+/* Estilos de la tabla */
+.dataTables_wrapper {
+    padding: 0 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    padding: 10px;
+    text-align: right;
+}
+#programasTable
+ th {
+    background-color: #343a40;
+    color: white;
+    font-weight: bold;
+}
+
+
 /* Formulario */
+
 .selector-form {
     background-color: #fff;
     border-radius: 8px;
@@ -116,7 +148,7 @@ body {
 
 .selector-form select {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border-radius: 4px;
     border: 1px solid #ddd;
     font-size: 16px;
@@ -126,7 +158,7 @@ body {
 .selector-form button {
     background-color: #1a9014;
     color: #fff;
-    padding: 10px 20px;
+    padding: 12px 25px;
     border: none;
     border-radius: 4px;
     font-size: 16px;
@@ -161,12 +193,11 @@ body {
     }
 
     .header img {
-        height: auto;  /* Mantiene la proporción */
+        height: auto; /* Mantiene la proporción */
         max-height: 50px; /* Altura máxima */
         max-width: 150px; /* Anchura máxima */
         object-fit: contain; /* Asegura que la imagen no se deforme */
     }
-    
 
     .logout-btn {
         font-size: 14px;
@@ -210,5 +241,25 @@ body {
     .selector-form button {
         font-size: 14px;
     }
-}
 
+    .main-content {
+        margin-left: 0;  /* Eliminar margen del sidebar en pantallas pequeñas */
+        padding: 15px;
+    }
+
+    #programasTable {
+        width: 100%; /* Asegura que la tabla ocupe todo el espacio disponible */
+        overflow-x: auto;  /* Para que la tabla pueda desplazarse si es muy ancha */
+        display: block;
+    }
+
+    /* Estilos de la tabla */
+    .dataTables_wrapper {
+        padding: 0 !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        padding: 10px;
+        text-align: right;
+    }
+}

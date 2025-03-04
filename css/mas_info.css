@@ -1,119 +1,291 @@
-/* Estilo general para la tabla */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    table-layout: fixed; /* Importante para columnas fijas */
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
 }
-
-/* Contenedor que permite desplazamiento horizontal */
-.table-container {
-    overflow-x: auto;
-    position: relative;
-    max-width: 100%; /* Para evitar desbordamiento */
-}
-
-/* Fijar columnas */
-.sticky-col {
-    position: sticky;
-    background-color: #fff; /* Fondo blanco para que no se superpongan */
-    z-index: 3; /* Asegura que se muestren sobre otras celdas */
-    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.1); /* Efecto de sombra para destacar */
-}
-
-/* Especificar posición de cada columna */
-.sticky-col.clave {
-    left: 75; /* Primera columna fija */
-}
-
-.sticky-col.area {
-    left: 150px; /* Ajusta según el ancho de la columna 'Clave' */
-}
-
-.sticky-col.actividad {
-    left: 300px; /* Ajusta según el ancho acumulado de 'Clave' y 'Área' */
-}
-
-/* Cabeceras fijas al hacer scroll vertical */
-th {
-    position: sticky;
-    top: 0;
-    background-color: #007bff; /* Fondo azul */
-    color: white; /* Texto blanco */
-    z-index: 4;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Efecto de sombra */
-}
-
-/* Estilo para celdas y cabeceras */
-td, th {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
-    min-width: 150px; /* Ancho mínimo consistente */
-}
-
-/* Estilo para filas alternas */
-tr:nth-child(odd) {
-    background-color: #f9f9f9;
-}
-
-tr:nth-child(even) {
-    background-color: #fff;
-}
-
-/* Asegura que las filas tengan altura consistente */
-tr {
-    height: 50px;
-}
-
-/* Barra lateral fija */
+/* Sidebar */
 .sidebar {
     width: 250px;
-    background-color: #333;
+    background: #343a40;
     color: white;
-    position: fixed;
-    height: 100%;
+    height: 100vh;
     padding-top: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
 }
 
-.sidebar .logo img {
-    width: 150px;
+/* Botón para mostrar el sidebar en móviles */
+.sidebar-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+    background: none;
+    border: none;
+}
+
+.sidebar .logo {
+    text-align: center;
     margin-bottom: 20px;
 }
 
-.sidebar nav ul {
+.sidebar .logo img {
+    width: 60%; /* Reducción del tamaño del logo */
+    max-width: 150px; /* Tamaño máximo para evitar que sea demasiado grande */
+    height: auto;
+}
+
+
+/* Lista del sidebar */
+.sidebar ul {
     list-style: none;
     padding: 0;
+    flex-grow: 1;
 }
 
-.sidebar nav ul li {
-    padding: 10px;
+.sidebar ul li {
+    margin: 15px 0;
 }
 
-.sidebar nav ul li:hover {
-    background-color: #575757;
-}
-
-/* Botones */
-.btn-salir, .btn-regresar {
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
+.sidebar ul li a {
     color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
 }
 
+.sidebar ul li a:hover {
+    background-color: #5a6368;
+    color: #1e88e5;
+}
+
+/* Contenido principal */
+.main-content {
+    margin-left: 250px;
+    padding: 80px 20px 20px; /* Agregar espacio superior igual a la altura del header */
+    width: calc(100% - 250px);
+}
+/* Header */
+.header {
+    background-color: #343a40;
+    color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 1000;
+}
+
+.header img {
+    height: 50px;
+    object-fit: contain;
+}
 .btn-salir {
-    background-color: #dc3545;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 .btn-salir:hover {
-    background-color: #c82333;
+    background-color: #c0392b;
 }
 
-.btn-regresar {
-    background-color: #007bff;
+h6 {
+    margin-top: 10px;
 }
 
-.btn-regresar:hover {
-    background-color: #0056b3;
+/* Selector de Mes */
+.mb-4 {
+    margin-bottom: 20px;
+}
+
+#mesSelector {
+    width: 200px; /* Reduciendo el tamaño del selector */
+}
+
+/* Tabla */
+.table-container {
+    overflow-x: auto;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+    text-align: left;
+    padding: 10px;
+    white-space: nowrap;
+}
+
+th {
+    background-color: #2c3e50;
+    color: white;
+}
+
+#avanceTable
+ th {
+    background-color: #343a40;
+    color: white;
+    font-weight: bold;
+}
+
+/* DataTables */
+.dataTables_wrapper {
+    width: 100%;
+}
+
+div.dataTables_wrapper div.dataTables_length select,
+div.dataTables_wrapper div.dataTables_filter input {
+    width: auto;
+    display: inline-block;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    white-space: nowrap;
+}
+
+table.dataTable tbody tr {
+    background-color: white;
+}
+
+/* Botones */
+.btn {
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #3498db;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.btn-secondary {
+    background-color: #7f8c8d;
+}
+
+.btn-secondary:hover {
+    background-color: #616a6b;
+}
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    .header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+    }
+
+    .header img {
+        height: auto; /* Mantiene la proporción */
+        max-height: 50px; /* Altura máxima */
+        max-width: 150px; /* Anchura máxima */
+        object-fit: contain; /* Asegura que la imagen no se deforme */
+    }
+
+    .logout-btn {
+        font-size: 14px;
+        padding: 6px 10px;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+        width: 250px;
+        height: 100vh;
+        top: 0;
+        position: fixed;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .sidebar-toggle {
+        display: block;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .selector-form {
+        padding: 15px;
+    }
+
+    .selector-form h3 {
+        font-size: 20px;
+    }
+
+    .selector-form select {
+        font-size: 14px;
+    }
+
+    .selector-form button {
+        font-size: 14px;
+    }
+
+    .main-content {
+        margin-left: 0;  /* Eliminar margen del sidebar en pantallas pequeñas */
+        padding: 15px;
+    }
+
+    #programasTable {
+        width: 100%; /* Asegura que la tabla ocupe todo el espacio disponible */
+        overflow-x: auto;  /* Para que la tabla pueda desplazarse si es muy ancha */
+        display: block;
+    }
+
+    /* Estilos de la tabla */
+    .dataTables_wrapper {
+        padding: 0 !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        padding: 10px;
+        text-align: right;
+    }
 }

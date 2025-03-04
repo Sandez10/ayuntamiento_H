@@ -46,18 +46,62 @@ if ($clavesResult->num_rows == 0) {
 
 // Estructura base de opciones
 $baseOpciones = [
-    ["title" => "Presupuesto Anual", "link" => "../formularios/pre_a.php"],
-    ["title" => "Mostrar Reporte de Avance", "link" => "#"]
+    ["title" => "Ver Programas", 
+    "link" => "../formularios/pre_a.php",
+    "icon" => "fas fa-list-alt" // Ícono para Ver Programas]
+    ],
+    [
+        "title" => "Última Activid Registrada",
+        "link" => "../formularios/avances.php",
+        "icon" => "fas fa-chart-line" // Ícono para Avance General
+    ]
 ];
 
 // Inicializar el menú con las opciones base para todos los usuarios
 $menuOpciones = [
     'default' => $baseOpciones,  // Menú base para todos los usuarios
+
 ];
 
 // Verificar si el usuario es admin y agregarle opciones adicionales
 if ($rol == 'admin') {
-    $menuOpciones['admin'] = array_merge([["title" => "Administrar Usuarios", "link" => "../sesiones_conexiones/actualizar_usr.php"]], $baseOpciones);
+    $menuOpciones['admin'] = array_merge([
+        [
+            "title" => "Administrar Usuarios",
+            "link" => "../sesiones_conexiones/actualizar_usr.php",
+            "icon" => "fas fa-users-cog" // Ícono para Administrar Usuarios
+        ],
+        [
+            "title" => "Cargar nuevas actividades",
+            "link" => "../formularios/subir_csv.html",
+            "icon" => "fas fa-file-csv  " // Ícono para nuevas Actividades
+        ],
+        [
+            "title" => "Modificar Programas",
+            "link" => "../formularios/programa_presupuestario/editar_prog.php",
+            "icon" => "fas fa-edit" // Ícono para modificar Programas
+        ],
+        [
+            "title" => "Ver Programas",
+            "link" => "../formularios/programas_pre.php",
+            "icon" => "fas fa-list-alt" // Ícono para Ver Programas
+        ],
+        [
+            "title" => "Última Actividad Registrada ",
+            "link" => "../formularios/avances.php",
+            "icon" => "fas fa-history" // Ícono para Avance General
+        ],
+/*        [
+            "title" => "Áreas",
+            "link" => "../formularios/areas.php",
+            "icon" => "fas fa-cogs"  // Ícono para Áreas
+
+        ]*/
+    ]);
+}
+else{
+    $menuOpciones['usuario'] = array_merge([],
+         $baseOpciones);
 }
 
 // Determinar las opciones del menú para el usuario según su rol
@@ -68,110 +112,73 @@ $opcionesMenu = $menuOpciones[$rol] ?? $menuOpciones['default'];
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SIPSEPP INICIO</title>
+    <!-- Estilos e íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
+    <!-- Encabezado -->
     <div class="header">
         <div class="logo">
-            <img src="../img/zihua.png" alt="Logo">
+            <img src="../img/ZIHUA_C.png" alt="Logo del Municipio">
         </div>
         <div class="user-options">
-            <a href="../sesiones_conexiones/editar_perfil.php" class="edit-profile-icon">
-                <i class="fa-regular fa-user fa-2xl" style="color: #ffffff;"></i>
-            </a>
-            <a href="../sesiones_conexiones/destruir_sesion.php" class="logout-icon">
-                <i class="fa-sharp fa-solid fa-arrow-right-from-bracket fa-2xl" style="color: #ffffff;"></i>
-            </a>
+        <a href="../sesiones_conexiones/destruir_sesion.php" class="btn btn-danger logout-btn">
+            <i class="fas fa-sign-out-alt"></i> 
+            <span class="d-none d-md-inline">Cerrar Sesión</span>
+        </a>
+
         </div>
     </div>
 
+    <div class="d-flex">
     <div class="sidebar">
-        <nav>
-            <ul>
-                <li><span class="menu-title">Menú</span></li>
-                <?php foreach ($opcionesMenu as $opcion): ?>
-                    <li><a href="<?= $opcion['link'] ?>"><?= $opcion['title'] ?></a></li>
-                <?php endforeach; ?>
-            </ul>
-        </nav>
+    <ul>
+        <li><span class="menu-title">Menú <i class="fas fa-home"></i> </span></li>
+        <?php foreach ($opcionesMenu as $opcion): ?>
+            <li>
+                <a href="<?= $opcion['link'] ?>">
+                    <i class="<?= $opcion['icon'] ?>"></i> <!-- Ícono dinámico -->
+                    <?= $opcion['title'] ?>
+                </a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
     </div>
 
-    <div class="main-content">
+    <!-- Contenido principal -->
+    <div class="main-content w-100">
         <div class="header-text">
-            <h2>Municipio de Zihuatanejo de Azueta Guerrero</h2>
-            <h3>Bienvenido, <?= htmlspecialchars($username) ?></h3>
+            <h2 class="text-center">Municipio de Zihuatanejo de Azueta Guerrero</h2>
+            <h3 class="text-center text-secondary">Bienvenido, <?= htmlspecialchars($username) ?></h3>
         </div>
 
-        <!-- Formulario para que el admin seleccione el área, formato y nivel de indicador -->
-        <div class="selector-form">
-            <h3>Selecciona el tipo de formato para generar el archivo</h3>
-            <form action="../formatos/formatos.php" method="get">
-                <!-- Solo el admin ve la opción de seleccionar área -->
-                <?php if ($rol == 'admin'): ?>
-                    <label for="area">Área:</label>
-                    <select name="area" id="area" required>
-                        <option value="">Seleccione un área</option>
-                        <?php while ($area = $areasResult->fetch_assoc()): ?>
-                            <option value="<?= $area['id'] ?>">
-                                <?= htmlspecialchars($area['nombre_area']) ?>
-                            </option>
-                        <?php endwhile; ?>
-                    </select>
-                    <label for="nivelIndicador">Nivel de Indicador:</label>
-                    <select name="nivelIndicador" id="nivelIndicador" required>
-                        <option value="actividad">Actividad</option>
-                        <option value="componente">Componente</option>
-                        <option value="fin">Fin</option>
-                    </select>
-                <?php endif; ?>
-
-                <!-- Formulario -->
-                <label for="formato">Formato:</label>
-                <select name="tipo" id="tipo" required onchange="mostrarClaves()">
-                    <option value="POA">POA</option>
-                    <option value="PBR">PBR</option>
-                    <option value="MIR">MIR</option>
-                    <option value="EP">Estructura Programática</option>
-                    <option value="AP">Árbol de Problemas</option>
-                    <option value="AO">Árbol de Objetivos</option>
-                </select>
-
-                <!-- Solo cuando se selecciona "Estructura Programática", mostramos las claves -->
-                <div id="clavesDiv" style="display: none;">
-                    <label for="clave">Selecciona una clave:</label>
-                    <select name="clave" id="clave" required>
-                        <option value="">Seleccione una clave</option>
-                        <?php while ($clave = $clavesResult->fetch_assoc()): ?>
-                            <option value="<?= $clave['id'] ?>">
-                                <?= htmlspecialchars($clave['clave_programa']) ?>
-                            </option>
-                        <?php endwhile; ?>
-                    </select>
-                </div>
-
-
-                <input type="submit" value="Generar Excel">
-            </form>
-        </div>
     </div>
 
     <script>
-// Función para mostrar el campo de claves cuando se selecciona "Estructura Programática"
-function mostrarClaves() {
-    var tipo = document.getElementById("tipo").value;
-    var clavesDiv = document.getElementById("clavesDiv");
-
-    if (tipo == "EP") {
-        clavesDiv.style.display = "block";  // Muestra el div con las claves
-    } else {
-        clavesDiv.style.display = "none";  // Oculta el div con las claves
-    }
-}
-
+        function mostrarClaves() {
+            const tipo = document.getElementById("tipo").value;
+            const clavesDiv = document.getElementById("clavesDiv");
+            clavesDiv.style.display = (tipo === "EP") ? "block" : "none";
+        }
     </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const sidebar = document.querySelector(".sidebar");
+    const toggleBtn = document.createElement("button");
+    toggleBtn.innerHTML = "<i class='fas fa-bars'></i>";
+    toggleBtn.classList.add("sidebar-toggle");
+    
+    document.querySelector(".header").prepend(toggleBtn);
+
+    toggleBtn.addEventListener("click", function () {
+        sidebar.classList.toggle("active");
+    });
+    });
+</script>
 </body>
 </html>

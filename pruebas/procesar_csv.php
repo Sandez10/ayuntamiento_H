@@ -1,5 +1,5 @@
 <?php
-include 'database/conexion.php'; // Conexión a la base de datos.
+include '../database/conexion.php'; // Conexión a la base de datos.
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['archivo'])) {
     $nombreArchivo = $_FILES['archivo']['tmp_name'];
@@ -10,7 +10,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['archivo'])) {
 
         // Preparar el query para actualizar los datos
         $query = "UPDATE listaactividades SET 
-                  MediosVerifi = ?
+                  nombre_area = ?, 
+                  claveProgramaP = ?, 
+                  nombreProgramaP = ?, 
+                  nombreActividad = ?, 
+                  EjePMD = ?, 
+                  ObjetivoPMD = ?, 
+                  Indicador = ?, 
+                  unidadMedida = ?, 
+                  frecuenciaMedición = ?, 
+                  metaAnual = ?, 
+                  metaTrim1 = ?, 
+                  metaTrim2 = ?, 
+                  metaTrim3 = ?, 
+                  metaTrim4 = ?, 
+                  MediosVerifi = ? 
                   WHERE id_actividades = ?";
 
         $stmt = $conn->prepare($query);
@@ -28,17 +42,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['archivo'])) {
             // Verificar que la fila tenga exactamente 16 columnas
             if (count($datos) == 16) {
                 // Asignar valores desde el CSV
+                $nombre_area = $datos[0];
+                $claveProgramaP = $datos[1];
+                $nombreProgramaP = $datos[2];
+                $nombreActividad = $datos[3];
                 $id_actividades = (int)$datos[4];  // Asegurarse de que sea un número
+                $EjePMD = $datos[5];
+                $ObjetivoPMD = $datos[6];
+                $Indicador = $datos[7];
+                $unidadMedida = $datos[8];
+                $frecuenciaMedición = $datos[9];
+                $metaAnual = $datos[10];
+                $metaTrim1 = $datos[11];
+                $metaTrim2 = $datos[12];
+                $metaTrim3 = $datos[13];
+                $metaTrim4 = $datos[14];
                 $MediosVerifi = $datos[15];
-
-                // Verificar el valor de MediosVerifi
-                echo "MediosVerifi: " . htmlspecialchars($MediosVerifi) . "<br>";
 
                 // Vincular parámetros y ejecutar la actualización
                 $stmt->bind_param(
-                    'si',  // 's' para cadenas, 'i' para enteros
-                    $MediosVerifi,  // Campo MediosVerifi
-                    $id_actividades  // Campo id_actividades
+                    'sssssssssiiiiisi',  // Tipos de datos: 's' para cadenas, 'i' para enteros
+                    $nombre_area,
+                    $claveProgramaP,
+                    $nombreProgramaP,
+                    $nombreActividad,
+                    $EjePMD,
+                    $ObjetivoPMD,
+                    $Indicador,
+                    $unidadMedida,
+                    $frecuenciaMedición,
+                    $metaAnual,
+                    $metaTrim1,
+                    $metaTrim2,
+                    $metaTrim3,
+                    $metaTrim4,
+                    $MediosVerifi,
+                    $id_actividades
                 );
 
                 if ($stmt->execute()) {
