@@ -131,7 +131,7 @@ $stmtActividades->close();
 
             // Insertar la actividad seleccionada
             $queryInsertarActividad = "INSERT INTO listaactividades (
-                nombre_area, claveProgramaP, nombreProgramaP, nombreActividad, 
+                clave_area, claveProgramaP, nombreProgramaP, nombreActividad, 
                 EjePMD, ObjetivoPMD, Indicador, frecuenciaMedición, unidadMedida, metaAnual, 
                 metaTrim1, metaTrim2, metaTrim3, metaTrim4, MediosVerifi
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

@@ -51,7 +51,7 @@ $baseOpciones = [
     "icon" => "fas fa-list-alt" // Ícono para Ver Programas]
     ],
     [
-        "title" => "Última Activid Registrada",
+        "title" => "Última Actividad Registrada",
         "link" => "../formularios/avances.php",
         "icon" => "fas fa-chart-line" // Ícono para Avance General
     ]
@@ -91,6 +91,12 @@ if ($rol == 'admin') {
             "link" => "../formularios/avances.php",
             "icon" => "fas fa-history" // Ícono para Avance General
         ],
+        [
+            "title" => "Reportes",
+            "link" => "../formatosExcel/formatos.php",
+            "icon" => "fas fa-file-excel" // Ícono de Excel
+        ]
+        
 /*        [
             "title" => "Áreas",
             "link" => "../formularios/areas.php",
@@ -157,7 +163,6 @@ $opcionesMenu = $menuOpciones[$rol] ?? $menuOpciones['default'];
             <h3 class="text-center text-secondary">Bienvenido, <?= htmlspecialchars($username) ?></h3>
         </div>
 
-    </div>
 
     <script>
         function mostrarClaves() {

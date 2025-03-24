@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['archivo'])) {
 
         // Consulta de inserción
         $query = "INSERT INTO listaactividades (
-            nombre_area, 
+            clave_area, 
             claveProgramaP, 
             nombreProgramaP, 
             nombreActividad, 
@@ -47,9 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['archivo'])) {
         // Procesar el archivo CSV línea por línea
         while (($datos = fgetcsv($gestor, 1000, ',')) !== false) {
             // Verificar que la fila tenga exactamente 15 columnas
-            if (count($datos) == 15) {
+            if (count($datos) == 16) {
                 // Asignar valores desde el CSV
-                $nombre_area = $datos[0];
+                $clave_area = $datos[0];
                 $claveProgramaP = $datos[1];
                 $nombreProgramaP = $datos[2];
                 $nombreActividad = $datos[3];
@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['archivo'])) {
                 // Vincular parámetros y ejecutar la inserción
                 $stmt->bind_param(
                     'sssssssssiiiiis',  // El formato de los datos
-                    $nombre_area,
+                    $clave_area,
                     $claveProgramaP,
                     $nombreProgramaP,
                     $nombreActividad,

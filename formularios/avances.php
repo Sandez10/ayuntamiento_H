@@ -110,7 +110,11 @@ $baseOpciones = [
     ["title" => "Inicio", 
     "link" => "../plataforma/dashboard.php",
     "icon" => "fas fa-home" // Ícono para Ver Programas
-    ]
+],
+["title" => "Ver Programas", 
+"link" => "pre_a.php",
+"icon" => "fas fa-list-alt" // Ícono para Ver Programas]
+]
 ];
 
 // Inicializar el menú con las opciones base para todos los usuarios

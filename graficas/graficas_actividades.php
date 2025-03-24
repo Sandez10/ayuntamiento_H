@@ -99,9 +99,12 @@ for ($i = 0; $i < 4; $i++) {
 
         // Acumulamos el porcentaje
         $acumulado += $porcentajeTrimestre;
+        if ($acumulado>100){
+            $avancesTrimestrales[] = number_format($acumulado, 2);
+        }
 
 // Guardamos el porcentaje acumulado por trimestre
-        $avancesTrimestrales[] = number_format($acumulado, 2);
+
 
     }
 }
@@ -243,7 +246,7 @@ $opcionesMenu = $menuOpciones[$rol] ?? $menuOpciones['default'];
                     }
                 },
                 y: {
-                    min: 0, // Establece el inicio en 25
+                    min: 0, // Establece el inicio en 0
                     suggestedMax: 100,
                     ticks: {
                         stepSize: 25,

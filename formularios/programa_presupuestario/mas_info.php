@@ -46,14 +46,19 @@ $result = $stmtProgramas->get_result();
 // Estructura base de opciones
 $baseOpciones = [
     ["title" => "Inicio", 
-    "link" => "../plataforma/dashboard.php",
+    "link" => "../../plataforma/dashboard.php",
     "icon" => "fas fa-home" // Ícono para Ver Programas
     ],
     [
         "title" => "Registrar Avance",
         "link" => "registrar_info.php?claveProgramaP=" . urlencode($claveProgramaP) . "&clave_area=" . urlencode($clave_area),
         "icon" => "fas fa-clipboard-list" // Ícono para Registrar avance mensual.
+    ],
+    ["title" => "Última Actividad Registrada", 
+    "link" => "../avances.php",
+    "icon" => "fas fa-list-alt" // Ícono para Ver Programas]
     ]
+
 ];
 // Inicializar el menú con las opciones base para todos los usuarios
 $menuOpciones = [
@@ -65,22 +70,22 @@ if ($rol == 'admin') {
     $menuOpciones['admin'] = array_merge($baseOpciones, [
         [
             "title" => "Administrar Usuarios",
-            "link" => "../sesiones_conexiones/actualizar_usr.php",
+            "link" => "../../sesiones_conexiones/actualizar_usr.php",
             "icon" => "fas fa-users-cog" // Ícono para Administrar Usuarios
         ],
         [
             "title" => "Cargar nuevas actividades",
-            "link" => "../formularios/subir_csv.html",
+            "link" => "../subir_csv.html",
             "icon" => "fas fa-file-csv" // Ícono para nuevas Actividades
         ],
         [
             "title" => "Editar/Borrar Programas",
-            "link" => "../formularios/programa_presupuestario/editarProg.php",
+            "link" => "editar_prog.php",
             "icon" => "fas fa-edit" // Ícono para Editar/Borrar Programas
         ],
         [
-            "title" => "Avance General",
-            "link" => "../formularios/avances.php",
+            "title" => "Últimas Actividades Registradas",
+            "link" => "../avances.php",
             "icon" => "fas fa-chart-line" // Ícono para Avance General
         ]
     ]);
@@ -176,14 +181,14 @@ $claveProgramaP = isset($_GET['claveProgramaP']) ? $_GET['claveProgramaP'] : nul
                 <?php
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        $queryActividades = "SELECT DISTINCT la.id_actividades, la.claveProgramaP, la.nombreActividad, ur.nombre_area, la.metaAnual
-                            FROM listaactividades la 
-                            INNER JOIN unidadesresponsables ur ON la.nombre_area = ur.clave_area
-                            WHERE la.claveProgramaP LIKE ? AND ur.clave_area = ?";
-                        $stmtActividades = $conn->prepare($queryActividades);
-                        $stmtActividades->bind_param("ss", $claveProgramaP, $clave_area);
-                        $stmtActividades->execute();
-                        $resultActividades = $stmtActividades->get_result();
+                            $queryActividades = "SELECT DISTINCT la.id_actividades, la.claveProgramaP, la.nombreActividad, ur.nombre_area, la.metaAnual
+                                FROM listaactividades la 
+                                INNER JOIN unidadesresponsables ur ON la.clave_area = ur.clave_area
+                                WHERE la.claveProgramaP LIKE ? AND ur.clave_area = ?";
+                            $stmtActividades = $conn->prepare($queryActividades);
+                            $stmtActividades->bind_param("ss", $claveProgramaP, $clave_area);
+                            $stmtActividades->execute();
+                            $resultActividades = $stmtActividades->get_result();
 
                         if ($resultActividades->num_rows > 0) {
                             while ($actividad = $resultActividades->fetch_assoc()) {
