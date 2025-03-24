@@ -10,21 +10,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['archivo'])) {
 
         // Preparar el query para actualizar los datos
         $query = "UPDATE listaactividades SET 
-                  nombre_area = ?, 
+                  clave_area = ?, 
                   claveProgramaP = ?, 
                   nombreProgramaP = ?, 
                   nombreActividad = ?, 
                   EjePMD = ?, 
                   ObjetivoPMD = ?, 
+                  eje_PDE,
                   Indicador = ?, 
-                  unidadMedida = ?, 
                   frecuenciaMedición = ?, 
+                  unidadMedida = ?, 
                   metaAnual = ?, 
                   metaTrim1 = ?, 
                   metaTrim2 = ?, 
                   metaTrim3 = ?, 
                   metaTrim4 = ?, 
-                  MediosVerifi = ? 
+                  MediosVerifi = ?,
+                  id_suinpac = ?,
+                  codigo_indicador = ?,
+                  nivel_indicador = ?, 
+                  tendencia = ?,
+                  variables = ?,
+                  metodologia = ?,
+                  formula = ?,
+                  estrategia_PMD = ?,
+                  supuestos = ?
                   WHERE id_actividades = ?";
 
         $stmt = $conn->prepare($query);
@@ -40,35 +50,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['archivo'])) {
 
         while (($datos = fgetcsv($gestor, 1000, ',')) !== false) {
             // Verificar que la fila tenga exactamente 16 columnas
-            if (count($datos) == 16) {
+            if (count($datos) == 25) {
                 // Asignar valores desde el CSV
-                $nombre_area = $datos[0];
+                $clave_area = $datos[0];
                 $claveProgramaP = $datos[1];
                 $nombreProgramaP = $datos[2];
                 $nombreActividad = $datos[3];
                 $id_actividades = (int)$datos[4];  // Asegurarse de que sea un número
                 $EjePMD = $datos[5];
                 $ObjetivoPMD = $datos[6];
-                $Indicador = $datos[7];
-                $unidadMedida = $datos[8];
-                $frecuenciaMedición = $datos[9];
-                $metaAnual = $datos[10];
-                $metaTrim1 = $datos[11];
-                $metaTrim2 = $datos[12];
-                $metaTrim3 = $datos[13];
-                $metaTrim4 = $datos[14];
-                $MediosVerifi = $datos[15];
+                $eje_PDE = $datos[7];
+                $Indicador = $datos[8];
+                $unidadMedida = $datos[9];
+                $frecuenciaMedición = $datos[10];
+                $metaAnual = $datos[11];
+                $metaTrim1 = $datos[12];
+                $metaTrim2 = $datos[13];
+                $metaTrim3 = $datos[14];
+                $metaTrim4 = $datos[15];
+                $MediosVerifi = $datos[16];
+                $id_suinpac = $datos[17];
+                $codigo_indicador = $datos[18];
+                $nivel_indicador = $datos[19];
+                $tendencia =$datos[20];
+                $variables = $datos[21];
+                $metodologia = $datos[22];
+                $formula = $datos[23];
+                $estrategia_PMD = $datos[24];
+                $supuestos = $datos[25];
+
 
                 // Vincular parámetros y ejecutar la actualización
                 $stmt->bind_param(
-                    'sssssssssiiiiisi',  // Tipos de datos: 's' para cadenas, 'i' para enteros
-                    $nombre_area,
-                    $claveProgramaP,
-                    $nombreProgramaP,
+                    'sssssssssiiiiisisissssssss',  // Tipos de datos: 's' para cadenas, 'i' para enteros
+                    $clave_area,
+                    $clavePrograma,
+                    $nombrePrograma,
                     $nombreActividad,
-                    $EjePMD,
+                    $id_actividades,
+                    $EjePM,
                     $ObjetivoPMD,
-                    $Indicador,
+                    $eje_PDE,
+                    $Indicado,
                     $unidadMedida,
                     $frecuenciaMedición,
                     $metaAnual,
@@ -77,7 +100,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['archivo'])) {
                     $metaTrim3,
                     $metaTrim4,
                     $MediosVerifi,
-                    $id_actividades
+                    $id_suinpac,
+                    $codigo_indicador,
+                    $nivel_indicador,
+                    $tendencia,
+                    $variables,
+                    $metodologia,
+                    $formula,
+                    $estrategia_PMD,
+                    $supuestos
                 );
 
                 if ($stmt->execute()) {
